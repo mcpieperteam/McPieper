@@ -313,7 +313,7 @@ public class MainActivity extends AppCompatActivity
                             public void run() {
                                 String group = "";
                                 if (result.length != 3) {
-                                    group = "Wocheneende";
+                                    group = "Wochenende";
                                 } else {
                                     group = result[2];
                                 }
