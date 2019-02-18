@@ -28,7 +28,7 @@ import java.net.URL;
 import java.util.Date;
 
 public class NotificationMgr extends Service {
-
+    //hi
 
     @Override
     public IBinder onBind(Intent intent) {
