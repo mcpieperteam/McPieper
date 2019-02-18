@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">McPieper</string>
+    <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
+    <string name="navigation_drawer_close">Navigationleiste schliesßen</string>
+    <string name="nav_header_desc">Navigationsleisten Kopf</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="restart_app">Bitte starte McPieper neu</string>
+    <string name="alert_title">Achtung!</string>
+    <string name="alert_content">Möchtest du wirklich absagen?</string>
+    <string name="alert_yes">Ja</string>
+    <string name="alert_no">Nein... Abbruch</string>
+    <string name="nav_home">Startseite</string>
+    <string name="nav_cancel">Dienstabsagen</string>
+    <string name="nav_settings">Passwort ändern</string>
+    <string name="nav_website">Offizielle Internetseite öffnen</string>
+    <string name="nav_calendar">Kalender</string>
+    <string name="nav_playstore">App im Playstore anzeigen</string>
+    <string-array name="deny">
+        <item>Du faules Stück S****** du hättest ja mal deinen Dienst machen können</item>
+        <item>Du hast keinen Dienst mehr... Ich hab ihn abgesagt</item>
+        <item>Ich hab mal für dich abgesagt</item>
+        <item>Absage erfolgreich</item>
+    </string-array>
+    <string-array name="accept">
+        <item>Du Egoist! Hättest ja mal wem anders deinen Dienst geben können</item>
+        <item>Du hast immer noch dienst</item>
+        <item>Deinstabsage erfolgreich... Ne Spaß du hast Dienst</item>
+    </string-array>
+    <string-array name="liar">
+        <item>Du Lügner... hast ja nichmal Dienst</item>
+        <item>Ich weiß ,dass du keinen Dienst hast! Mich kannst du nicht verarschen</item>
+        <item>Du hast leider keinen Dienst wie schade</item>
+        <item>Du weißt doch selber, dass du keinen Dienst hast</item>
+    </string-array>
+    <string-array name="error_while_canceling">
+        <item>Ohh nein es ist ein Fehler bei der Absage aufgetreten</item>
+        <item>Absage nicht erfolgreich</item>
+        <item>Ein Fehler ist aufgetreten</item>
+        <item>Fehler trat auf: Ich glaub da hat einer die Leitung angenagt</item>
+    </string-array>
+    <string-array name="snackbar_click_joke">
+        <item>Hör auf mich wie so ein Idiot anzuklicken!</item>
+        <item>Hör auf mich zu schlagen!</item>
+        <item>Ist es so schwer es einfach zu lassen?</item>
+        <item>Ich werde dir nicht helfen, versuchs erst garnicht</item>
+    </string-array>
+</resources>

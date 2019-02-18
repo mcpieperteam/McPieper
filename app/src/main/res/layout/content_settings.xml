@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:foregroundGravity="center_vertical|clip_vertical"
+
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+    tools:context="com.cloudway.mcpieper.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/bg_settings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foregroundGravity="center_vertical|center_horizontal"
+        android:gravity="bottom|center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="bottom|center"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/old_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Altes Passwort"
+                android:inputType="textPassword"
+                android:textColorHint="@android:color/white" />
+
+            <EditText
+                android:id="@+id/new_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Neues Passwort"
+                android:inputType="textPassword"
+                android:textColorHint="@android:color/white" />
+
+            <EditText
+                android:id="@+id/new_pwd_conf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Neues Passwort bestätigen"
+                android:inputType="textPassword"
+                android:textColorHint="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/change_pwd_btn"
+                android:layout_width="184dp"
+                android:layout_height="111dp"
+                app:srcCompat="@drawable/ic_check_box_green_24dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
