@@ -8,6 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 
 public class Receiver extends BroadcastReceiver {
+
+    //hi
+
     @Override
     public void onReceive(Context context, Intent intent_old) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
