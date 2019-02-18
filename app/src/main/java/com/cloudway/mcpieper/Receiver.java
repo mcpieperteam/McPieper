@@ -9,7 +9,7 @@ import android.content.Intent;
 
 public class Receiver extends BroadcastReceiver {
 
-    //hi
+    //hii
 
     @Override
     public void onReceive(Context context, Intent intent_old) {
