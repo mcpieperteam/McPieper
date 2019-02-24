@@ -28,7 +28,7 @@ public class Widget_one_Provider extends AppWidgetProvider {
             views.setTextViewText(R.id.widget_one_titel, "Sanitäter(heute):");*/
             SharedPreferences sharedPreferences = context.getSharedPreferences("login", 0);
 
-            if (sharedPreferences.getBoolean("authed", false)) {
+            if (sharedPreferences.getBoolean("authed", false) && false) {
                 final String usr = sharedPreferences.getString("usr", "");
                 final String pwd = sharedPreferences.getString("pwd", "");
                 try {
