@@ -39,10 +39,7 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notification);
-        WallpaperManager wpm = WallpaperManager.getInstance(this);
-        Drawable d = wpm.getDrawable();
-        LinearLayout l = findViewById(R.id.bg);
-        l.setBackground(d);
+        
         Button cncl = findViewById(R.id.cancel_serv);
         Button keep = findViewById(R.id.keep_serv);
         cncl.setOnClickListener(this);

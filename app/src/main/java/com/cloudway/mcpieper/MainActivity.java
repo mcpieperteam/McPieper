@@ -74,10 +74,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             startService(new Intent(this, NotificationMgr.class));
         }
-        WallpaperManager wpm = WallpaperManager.getInstance(this);
-        Drawable d = wpm.getDrawable();
-        LinearLayout l = findViewById(R.id.bg);
-        l.setBackground(d);
+        
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
