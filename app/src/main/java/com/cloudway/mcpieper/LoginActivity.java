@@ -1,5 +1,7 @@
 package com.cloudway.mcpieper;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -62,6 +64,12 @@ public class LoginActivity extends AppCompatActivity {
                                     edit.putBoolean("authed",true);
                                     edit.commit();
                                     startActivity(new Intent(ctx, MainActivity.class));
+
+                                    Intent intent_w_one = new Intent(getApplicationContext(), Widget_one_Provider.class);
+                                    intent_w_one.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+                                    int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), Widget_one_Provider.class));
+                                    intent_w_one.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+                                    sendBroadcast(intent_w_one);
                                     finish();
                                 } else {
                                     String[] answrs = {"Probleme bei der Anmeldung",

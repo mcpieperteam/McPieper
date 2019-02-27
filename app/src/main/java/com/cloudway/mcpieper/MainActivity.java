@@ -6,7 +6,9 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.WallpaperManager;
+import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -73,6 +75,11 @@ public class MainActivity extends AppCompatActivity
             finish();
         } else {
             startService(new Intent(this, NotificationMgr.class));
+            Intent intent_w_one = new Intent(this, Widget_one_Provider.class);
+            intent_w_one.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+            int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), Widget_one_Provider.class));
+            intent_w_one.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+            sendBroadcast(intent_w_one);
         }
         WallpaperManager wpm = WallpaperManager.getInstance(this);
         Drawable d = wpm.getDrawable();
