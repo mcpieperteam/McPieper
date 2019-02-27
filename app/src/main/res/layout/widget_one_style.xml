@@ -15,7 +15,7 @@
         android:layout_weight="95" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="50"
@@ -23,8 +23,7 @@
         android:cropToPadding="false"
         android:scaleType="centerInside"
         android:visibility="visible"
-        app:srcCompat="@drawable/mcpieper_icon"
-        tools:srcCompat="@drawable/mcpieper_icon" />
+        app:srcCompat="@drawable/mcpieper_icon"/>
 
     <TextView
         android:id="@+id/textView7"
