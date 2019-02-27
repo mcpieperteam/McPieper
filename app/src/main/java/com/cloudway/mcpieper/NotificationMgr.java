@@ -38,7 +38,15 @@ public class NotificationMgr extends Service {
     public void onDestroy() {
 
         Toast.makeText(this, R.string.restart_app, Toast.LENGTH_LONG).show();
-        startService(new Intent(this, NotificationMgr.class));
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("crash","new start");
+                startService(new Intent(getApplicationContext(), keeper.class));
+
+            }
+        });
+        thread.start();
 
     }
 
