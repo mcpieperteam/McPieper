@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -76,6 +77,8 @@ public class Widget_one_Provider extends AppWidgetProvider {
                 views.setTextViewText(R.id.widget_one_titel, "Bitte anmelden.");
                 views.setOnClickPendingIntent(R.id.widget_one, pendingIntent);
             }
+
+            views.setImageViewResource(R.id.logo,R.drawable.mcpieper_icon);
             Toast.makeText(context,"aktualiesiere", Toast.LENGTH_SHORT).show();
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
