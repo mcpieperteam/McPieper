@@ -81,10 +81,7 @@ public class MainActivity extends AppCompatActivity
             intent_w_one.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
             sendBroadcast(intent_w_one);
         }
-        WallpaperManager wpm = WallpaperManager.getInstance(this);
-        Drawable d = wpm.getDrawable();
-        LinearLayout l = findViewById(R.id.bg);
-        l.setBackground(d);
+        
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
