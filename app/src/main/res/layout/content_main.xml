@@ -5,24 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.mcpieperteam.mcpieper.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:context="com.cloudway.mcpieper.MainActivity"
+    tools:showIn="@layout/app_bar_main" >
+<LinearLayout
+    android:id="@+id/bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center|center_horizontal|center_vertical"
+    android:orientation="horizontal">
 
-    <LinearLayout
-        android:id="@+id/bg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center|center_horizontal|center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/info_home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Internetzugang nicht verfügbar"
-            android:textColor="@color/red"
-            android:textSize="24sp" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/info_home"
+        android:layout_width="wrap_content"
+        android:layout_height="95dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Internetzugang nicht verfügbar"
+        android:textColor="@color/red"
+        android:textSize="24sp" />
+</LinearLayout>
 </android.support.constraint.ConstraintLayout>

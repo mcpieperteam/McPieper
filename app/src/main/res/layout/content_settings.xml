@@ -8,7 +8,7 @@
 
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
-    tools:context="com.mcpieperteam.mcpieper.MainActivity">
+    tools:context="com.cloudway.mcpieper.MainActivity">
 
     <LinearLayout
         android:id="@+id/bg_settings"
@@ -17,34 +17,6 @@
         android:foregroundGravity="center_vertical|center_horizontal"
         android:gravity="bottom|center"
         android:orientation="vertical">
-
-        <Switch
-            android:id="@+id/no_firebase_switch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:padding="2dp"
-            android:text="Hintergrundserviece"
-            android:textColor="@color/red" />
-
-        <Switch
-            android:id="@+id/save_enerdie_switch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="2dp"
-            android:text="Energiesparmodus"
-            android:textColor="@color/red"
-            android:visibility="invisible" />
-
-        <Button
-            android:id="@+id/abmelden"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#eee"
-            android:text="Abmelden"
-            android:textAllCaps="false"
-            android:textColor="@color/red" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -85,7 +57,6 @@
                 android:layout_width="184dp"
                 android:layout_height="111dp"
                 android:src="@drawable/ic_check_box_green_24dp" />
-
         </LinearLayout>
 
     </LinearLayout>
