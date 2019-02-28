@@ -64,7 +64,6 @@ public class NotificationMgr extends Service {
                             @Override
                             public void run() {
 
-
                                 try {
                                     URL url = new URL("http://jusax.dnshome.de/s/" + "sani.php?d=&act=m&un=" + usr + "&key=" + pwd);
                                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
