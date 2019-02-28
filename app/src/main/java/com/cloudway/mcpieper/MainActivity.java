@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+10000, pendingIntent);
 
-
+startActivity(new Intent(this,UserLoginActivity.class));
         setContentView(R.layout.activity_main);
         final Context ctx = this;
         SharedPreferences sp = getSharedPreferences("login", 0);
