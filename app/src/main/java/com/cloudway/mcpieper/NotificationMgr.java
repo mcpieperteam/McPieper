@@ -38,7 +38,15 @@ public class NotificationMgr extends Service {
     public void onDestroy() {
 
         Toast.makeText(this, R.string.restart_app, Toast.LENGTH_LONG).show();
-        startService(new Intent(this, NotificationMgr.class));
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("crash","new start");
+                startService(new Intent(getApplicationContext(), keeper.class));
+
+            }
+        });
+        thread.start();
 
     }
 
@@ -65,7 +73,6 @@ public class NotificationMgr extends Service {
                             @RequiresApi(api = Build.VERSION_CODES.O)
                             @Override
                             public void run() {
-
 
                                 try {
                                     URL url = new URL("http://jusax.dnshome.de/s/" + "sani.php?d=&act=m&un=" + usr + "&key=" + pwd);
