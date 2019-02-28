@@ -21,7 +21,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="Internetzugang nicht verfügbar"
-        android:textColor="@android:color/white"
+        android:textColor="@color/red"
         android:textSize="24sp" />
 </LinearLayout>
 </android.support.constraint.ConstraintLayout>

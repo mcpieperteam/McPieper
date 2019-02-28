@@ -32,7 +32,7 @@
                 android:ems="10"
                 android:hint="Altes Passwort"
                 android:inputType="textPassword"
-                android:textColorHint="@android:color/white" />
+                android:textColorHint="@color/red" />
 
             <EditText
                 android:id="@+id/new_pwd"
@@ -41,7 +41,7 @@
                 android:ems="10"
                 android:hint="Neues Passwort"
                 android:inputType="textPassword"
-                android:textColorHint="@android:color/white" />
+                android:textColorHint="@color/red" />
 
             <EditText
                 android:id="@+id/new_pwd_conf"
@@ -50,13 +50,13 @@
                 android:ems="10"
                 android:hint="Neues Passwort bestätigen"
                 android:inputType="textPassword"
-                android:textColorHint="@android:color/white" />
+                android:textColorHint="@color/red" />
 
             <ImageView
                 android:id="@+id/change_pwd_btn"
                 android:layout_width="184dp"
                 android:layout_height="111dp"
-                app:srcCompat="@drawable/ic_check_box_green_24dp" />
+                android:src="@drawable/ic_check_box_green_24dp" />
         </LinearLayout>
 
     </LinearLayout>
