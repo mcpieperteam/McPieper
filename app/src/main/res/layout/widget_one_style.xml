@@ -15,7 +15,7 @@
         android:layout_margin="5dp"
         android:layout_weight="50"
         android:scaleType="centerInside"
-        app:srcCompat="@drawable/mcpieper_icon" />
+        android:src="@drawable/mcpieper_icon" />
 
     <LinearLayout
         android:layout_width="match_parent"

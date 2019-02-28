@@ -17,7 +17,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class Widget_one_Provider extends AppWidgetProvider {
     @Override
@@ -52,12 +54,19 @@ public class Widget_one_Provider extends AppWidgetProvider {
                                 } else {
                                     views.setTextViewText(R.id.widget_one_titel, "Sanitäter\n(heute):");
                                 }
-                                String group = "";
+                                String group = result[2];
                                 if (result.length != 3) {
                                     views.setTextViewText(R.id.widget_one_content, "keiner");
                                 } else {
-                                    views.setTextViewText(R.id.widget_one_content, result[2]);
+                                    views.setTextViewText(R.id.widget_one_content, group);
                                 }
+                                List<String> list = Arrays.asList(group.split(", "));
+                                if(list.contains(usr)){
+                                    views.setImageViewResource(R.id.logo,R.drawable.mcpieper_icon_green);
+                                }else{
+                                    views.setImageViewResource(R.id.logo,R.drawable.mcpieper_icon);
+                                }
+
                                 Date d = new Date();
                                 views.setTextViewText(R.id.widget_one_offline, "Zuletzt aktualisiert: "+String.valueOf(d.getHours())+":"+String.valueOf(d.getMinutes()));
                             } finally {
@@ -67,13 +76,11 @@ public class Widget_one_Provider extends AppWidgetProvider {
                             }
                         } catch (MalformedURLException e) {
                             e.printStackTrace();
-                            views.setTextViewText(R.id.widget_one_content, "Kein Internet");
-                            views.setTextViewText(R.id.widget_one_titel, "Sanitäter\n(?):");
+                            Date d = new Date();
+                            views.setTextViewText(R.id.widget_one_offline, "(Offline) "+String.valueOf(d.getHours())+String.valueOf(d.getMinutes()));
                             appWidgetManager.updateAppWidget(appWidgetId, views);
                         } catch (IOException e) {
                             e.printStackTrace();
-                            views.setTextViewText(R.id.widget_one_content, "Kein Internet");
-                            views.setTextViewText(R.id.widget_one_titel, "Sanitäter\n(?):");
                             Date d = new Date();
                             views.setTextViewText(R.id.widget_one_offline, "(Offline) "+String.valueOf(d.getHours())+String.valueOf(d.getMinutes()));
                             appWidgetManager.updateAppWidget(appWidgetId, views);
