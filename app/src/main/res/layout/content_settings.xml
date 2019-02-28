@@ -8,7 +8,7 @@
 
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
-    tools:context="com.cloudway.mcpieper.MainActivity">
+    tools:context="com.cloudway.mcpieper.n.cloudway.mcpieper.MainActivity">
 
     <LinearLayout
         android:id="@+id/bg_settings"
