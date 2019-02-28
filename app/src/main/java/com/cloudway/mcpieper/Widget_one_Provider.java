@@ -68,7 +68,13 @@ public class Widget_one_Provider extends AppWidgetProvider {
                                 }
 
                                 Date d = new Date();
-                                views.setTextViewText(R.id.widget_one_offline, "Zuletzt aktualisiert: "+String.valueOf(d.getHours())+":"+String.valueOf(d.getMinutes()));
+                                String min = "";
+                                if (String.valueOf(d.getMinutes()).length() == 1){
+                                    min = "0"+String.valueOf(d.getMinutes());
+                                }else{
+                                    min = String.valueOf(d.getMinutes());
+                                }
+                                views.setTextViewText(R.id.widget_one_offline, "Zuletzt aktualisiert: "+String.valueOf(d.getHours())+":"+min);
                             } finally {
                                 appWidgetManager.updateAppWidget(appWidgetId, views);
                                 urlConnection.disconnect();
@@ -77,12 +83,24 @@ public class Widget_one_Provider extends AppWidgetProvider {
                         } catch (MalformedURLException e) {
                             e.printStackTrace();
                             Date d = new Date();
-                            views.setTextViewText(R.id.widget_one_offline, "(Offline) "+String.valueOf(d.getHours())+String.valueOf(d.getMinutes()));
+                            String min = "";
+                            if (String.valueOf(d.getMinutes()).length() == 1){
+                                min = "0"+String.valueOf(d.getMinutes());
+                            }else{
+                                min = String.valueOf(d.getMinutes());
+                            }
+                            views.setTextViewText(R.id.widget_one_offline, "(Offline) "+String.valueOf(d.getHours())+":"+min);
                             appWidgetManager.updateAppWidget(appWidgetId, views);
                         } catch (IOException e) {
                             e.printStackTrace();
                             Date d = new Date();
-                            views.setTextViewText(R.id.widget_one_offline, "(Offline) "+String.valueOf(d.getHours())+String.valueOf(d.getMinutes()));
+                            String min = "";
+                            if (String.valueOf(d.getMinutes()).length() == 1){
+                                min = "0"+String.valueOf(d.getMinutes());
+                            }else{
+                                min = String.valueOf(d.getMinutes());
+                            }
+                            views.setTextViewText(R.id.widget_one_offline, "(Offline) "+String.valueOf(d.getHours())+":"+min);
                             appWidgetManager.updateAppWidget(appWidgetId, views);
                         }
 
