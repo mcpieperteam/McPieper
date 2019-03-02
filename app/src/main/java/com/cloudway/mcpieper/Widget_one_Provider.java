@@ -54,10 +54,11 @@ public class Widget_one_Provider extends AppWidgetProvider {
                                 } else {
                                     views.setTextViewText(R.id.widget_one_titel, "Sanitäter\n(heute):");
                                 }
-                                String group = result[2];
+                                String group = "";
                                 if (result.length != 3) {
                                     views.setTextViewText(R.id.widget_one_content, "keiner");
                                 } else {
+                                    group = result[2];
                                     views.setTextViewText(R.id.widget_one_content, group);
                                 }
                                 List<String> list = Arrays.asList(group.split(", "));
