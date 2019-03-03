@@ -14,7 +14,7 @@ public class Receiver extends BroadcastReceiver {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, Receiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 1, intent, 0);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1800000, pendingIntent);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + /*1800000*/100000, pendingIntent);
 
         if(isServiceRunning(NotificationMgr.class, context)){
             context.startService(new Intent(context, NotificationMgr.class));

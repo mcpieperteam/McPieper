@@ -30,7 +30,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Du hast Dienst..."
-            android:textColor="@android:color/white"
+            android:textColor="@color/red"
             android:textSize="36sp" />
 
         <TextView
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Kannst du?"
-            android:textColor="@android:color/white"
+            android:textColor="@color/red"
             android:textSize="30sp" />
     </LinearLayout>
 
