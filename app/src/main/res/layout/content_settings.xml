@@ -18,6 +18,13 @@
         android:gravity="bottom|center"
         android:orientation="vertical">
 
+        <Switch
+            android:id="@+id/save_enerdie_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:text="Energiesparmodus" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,6 +64,7 @@
                 android:layout_width="184dp"
                 android:layout_height="111dp"
                 android:src="@drawable/ic_check_box_green_24dp" />
+
         </LinearLayout>
 
     </LinearLayout>
