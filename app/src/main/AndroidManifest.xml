@@ -31,18 +31,18 @@
             android:label="Login" />
         <activity android:name="com.cloudway.mcpieper.Notification" />
 
-        <service android:name="com.cloudway.mcpieper.NotificationMgr">
-            <intent-filter>
+        <service android:enabled="true" android:name="com.cloudway.mcpieper.NotificationMgr">
+            <!--<intent-filter>
                 <action android:name="com.cloudway.NotificationMgr" />
-            </intent-filter>
+            </intent-filter>-->
         </service>
-        <receiver android:name=".autostart">
+        <receiver android:name=".autostart" android:enabled="true" android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".Receiver"/>
+        <receiver android:name=".Receiver" android:enabled="true" android:exported="false"/>
         <receiver android:name=".Widget_one_Provider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
