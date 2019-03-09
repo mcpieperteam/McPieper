@@ -2,7 +2,6 @@ package com.cloudway.mcpieper;
 
 import android.app.ActivityManager;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,23 +17,27 @@ public class Receiver extends BroadcastReceiver {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onReceive(Context context, Intent intent_old) {
-        Toast.makeText(context, "Receiver", Toast.LENGTH_LONG).show();
+    public void onReceive(final Context context, Intent intent_old) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, Receiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 1, intent, 0);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1800000, pendingIntent);
 
-        if(!isServiceRunning(NotificationMgr.class, context)){
-            try{
-                context.startService(new Intent(context, NotificationMgr.class));
-            }catch (Exception e){
-                showNotification("Error", e.toString(),context);
+        if (!isServiceRunning(NotificationMgr.class, context)) {
+            try {
+                Intent intent_start = new Intent(context, NotificationMgr.class);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    context.startForegroundService(intent_start);
+                } else {
+                    context.startService(intent_start);
+                }
+            } catch (Exception e) {
+                showNotification("Error", "Bitte starte die McPieper App!!!", context);
             }
-
         }
     }
-    private boolean isServiceRunning (Class serviceClass, Context context){
+
+    private boolean isServiceRunning(Class serviceClass, Context context) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
@@ -48,9 +51,9 @@ public class Receiver extends BroadcastReceiver {
     private void showNotification(String title, String message, Context context) {
 
 
-        Intent intent = new Intent(context, NotificationMgr.class);
+        Intent intent = new Intent(context, MainActivity.class);
 
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default")

@@ -15,8 +15,6 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.cloudway.mcpieper.R;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,18 +34,20 @@ public class NotificationMgr extends Service {
     }
 
     public void onDestroy() {
+        final SharedPreferences preferences = getSharedPreferences("refresh", 0);
+        boolean save_energie = preferences.getBoolean("save_engergie", false);
+        if (!save_energie) {
+            Toast.makeText(this, R.string.restart_app, Toast.LENGTH_LONG).show();
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d("crash", "new start");
+                    startService(new Intent(getApplicationContext(), keeper.class));
 
-        Toast.makeText(this, R.string.restart_app, Toast.LENGTH_LONG).show();
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("crash","new start");
-                startService(new Intent(getApplicationContext(), keeper.class));
-
-            }
-        });
-        thread.start();
-
+                }
+            });
+            thread.start();
+        }
     }
 
     @Override
@@ -71,10 +71,11 @@ public class NotificationMgr extends Service {
                     int last_day = preferences.getInt("last_d", 0);
                     int last_month = preferences.getInt("last_month", 0);
                     int last_year = preferences.getInt("last_year", 0);
+                    boolean save_energie = preferences.getBoolean("save_engergie", false);
 
 
                     //if ((c_day == last_day && last_hour < 7 && c_hour >= 16 && last_hour != c_hour) || /*(c_day == last_day && last_hour >= 16 && c_hour < 7 && last_hour <= c_hour) ||*/ (c_day != last_day && (last_hour < 7 && c_hour >= 16 && last_hour != c_hour)) || (c_day != last_day && (last_hour >= 16 && c_hour <= 7 && last_hour != c_hour))) {
-                    if((c_year > last_year) || (c_year == last_year && c_month > last_month) || (c_year == last_year && c_month == last_month && c_day > last_day+1) || (c_year == last_year && c_month == last_month && c_day == last_day+1 && (last_hour<16 || c_hour>15)) || (c_year == last_year && c_month == last_month && c_day == last_day && last_hour<16 && c_hour>15)){
+                    if ((c_year > last_year) || (c_year == last_year && c_month > last_month) || (c_year == last_year && c_month == last_month && c_day > last_day + 1) || (c_year == last_year && c_month == last_month && c_day == last_day + 1 && (last_hour < 16 || c_hour > 15)) || (c_year == last_year && c_month == last_month && c_day == last_day && last_hour < 16 && c_hour > 15)) {
                         (new Thread(new Runnable() {
                             @RequiresApi(api = Build.VERSION_CODES.O)
                             @Override
@@ -118,7 +119,12 @@ public class NotificationMgr extends Service {
 
                         })).start();
                     }
+
                     timer.postDelayed(this, 5 * 60000);
+                    if (save_energie) {
+                        stopService(new Intent(NotificationMgr.this, NotificationMgr.class));
+                    }
+
                 }
             }, 0);
         }
