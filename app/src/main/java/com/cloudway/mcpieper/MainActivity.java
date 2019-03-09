@@ -36,7 +36,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.cloudway.mcpieper.R;
@@ -49,6 +51,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.Random;
 
 
@@ -211,7 +214,13 @@ public class MainActivity extends AppCompatActivity
 
         ViewFlipper v = findViewById(R.id.disp);
         v.setDisplayedChild(0);
-
+        Switch switchh = findViewById(R.id.save_enerdie_switch);
+        switchh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onChange_switch(v);
+            }
+        });
 
     }
 
@@ -288,6 +297,21 @@ public class MainActivity extends AppCompatActivity
             } else {
                 Snackbar.make(v, "Ein Fehler ist aufgetreten", Snackbar.LENGTH_LONG).show();
             }
+        }
+    }
+    public void onChange_switch(View v){
+        if(v.getId() == R.id.save_enerdie_switch){
+            Switch swit = findViewById(R.id.save_enerdie_switch);
+            SharedPreferences preferences = getSharedPreferences("refresh", 0);
+            SharedPreferences.Editor edit = preferences.edit();
+            edit.putBoolean("save_engergie", swit.isChecked());
+            if(swit.isChecked()){
+                Toast.makeText(this, "Energiesparmodus aktiviert!!!", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(this, "Energiesparmodus deaktiviert!!!", Toast.LENGTH_LONG).show();
+                startService(new Intent(this, NotificationMgr.class));
+            }
+            edit.commit();
         }
     }
 
