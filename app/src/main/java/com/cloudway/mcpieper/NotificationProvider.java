@@ -22,6 +22,7 @@ public class NotificationProvider extends Application {
                     "Sync McPieper",
                     NotificationManager.IMPORTANCE_MIN
             );
+            serviceChannel.setShowBadge(false);
 
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel);
