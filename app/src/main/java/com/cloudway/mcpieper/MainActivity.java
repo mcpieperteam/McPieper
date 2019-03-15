@@ -63,11 +63,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //start AlarmManager in 10 sek.
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, Receiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+10000, pendingIntent);
+
 
 
         setContentView(R.layout.activity_main);
@@ -77,7 +73,14 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         } else {
+            //start AlarmManager in 10 sek.
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, Receiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+10000, pendingIntent);
+
             startService(new Intent(this, NotificationMgr.class));
+
             Intent intent_w_one = new Intent(this, Widget_one_Provider.class);
             intent_w_one.setAction("android.appwidget.action.APPWIDGET_UPDATE");
             int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), Widget_one_Provider.class));
