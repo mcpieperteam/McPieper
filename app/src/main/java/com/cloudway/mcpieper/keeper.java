@@ -36,7 +36,12 @@ public class keeper extends Service {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                startService(new Intent(getApplicationContext(), NotificationMgr.class));
+                Intent intent_start = new Intent(getApplicationContext(), NotificationMgr.class);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    getApplicationContext().startForegroundService(intent_start);
+                } else {
+                    getApplicationContext().startService(intent_start);
+                }
             }
         });
     }
