@@ -7,6 +7,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -24,6 +25,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
+
+import static com.cloudway.mcpieper.NotificationProvider.CHANNEL_ID;
 
 public class NotificationMgr extends Service {
     //hi
@@ -122,7 +125,7 @@ public class NotificationMgr extends Service {
 
                     timer.postDelayed(this, 5 * 60000);
                     if (save_energie) {
-                        stopService(new Intent(NotificationMgr.this, NotificationMgr.class));
+                        stopService(new Intent(getApplicationContext(), NotificationMgr.class));
                     }
 
                 }
@@ -178,5 +181,28 @@ public class NotificationMgr extends Service {
     public boolean onUnbind(Intent intent) {
 
         return super.onUnbind(intent);
+    }
+
+    @Override
+    public void onCreate() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            Intent notificationIntent = new Intent(this, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                    0, notificationIntent, 0);
+
+            android.app.Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setContentTitle("McPieper")
+                    .setContentText("Du bekommst bescheid...")
+                    .setSmallIcon(R.drawable.mcpieper_icon)
+                    .setContentIntent(pendingIntent)
+                    .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                    .setPriority(NotificationCompat.PRIORITY_MIN)
+                    .setOnlyAlertOnce(true)
+                    .setColor(Color.rgb(205,100,100))
+                    .build();
+
+            startForeground(1, notification);
+        }
     }
 }
