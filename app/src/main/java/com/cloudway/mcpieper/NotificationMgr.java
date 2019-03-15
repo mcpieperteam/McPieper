@@ -193,7 +193,7 @@ public class NotificationMgr extends Service {
 
             android.app.Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setContentTitle("McPieper")
-                    .setContentText("Du bekommst bescheid...")
+                    .setContentText("Du bekommst Bescheid...")
                     .setSmallIcon(R.drawable.mcpieper_icon)
                     .setContentIntent(pendingIntent)
                     .setCategory(NotificationCompat.CATEGORY_SERVICE)
