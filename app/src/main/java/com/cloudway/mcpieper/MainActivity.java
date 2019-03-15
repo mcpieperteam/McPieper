@@ -504,10 +504,12 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.settings) {
             v.setDisplayedChild(1);
-            WallpaperManager wpm = WallpaperManager.getInstance(this);
-            Drawable d = wpm.getDrawable();
-            LinearLayout l = findViewById(R.id.bg_settings);
-            l.setBackground(d);
+
+            final SharedPreferences preferences = getSharedPreferences("refresh", 0);
+            boolean save_energie = preferences.getBoolean("save_engergie", false);
+            Switch swit = findViewById(R.id.save_enerdie_switch);
+            swit.setChecked(save_energie);
+
             ImageView imageButton = (ImageView) findViewById(R.id.change_pwd_btn);
             imageButton.setOnClickListener(this);
         } else if (id == R.id.playstore) {
