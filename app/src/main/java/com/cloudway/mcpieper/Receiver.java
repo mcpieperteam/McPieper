@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
 public class Receiver extends BroadcastReceiver {
 
@@ -22,19 +21,20 @@ public class Receiver extends BroadcastReceiver {
         Intent intent = new Intent(context, Receiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 1, intent, 0);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1800000, pendingIntent);
+        try {
+            if (!isServiceRunning(NotificationMgr.class, context)) {
 
-        if (!isServiceRunning(NotificationMgr.class, context)) {
-            try {
                 Intent intent_start = new Intent(context, NotificationMgr.class);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     context.startForegroundService(intent_start);
                 } else {
                     context.startService(intent_start);
                 }
-            } catch (Exception e) {
-                showNotification("Error", "Bitte starte die McPieper App!!!", context);
             }
+        } catch (Exception e) {
+            showNotification("Error", "Bitte starte die McPieper App!!!", context);
         }
+
     }
 
     private boolean isServiceRunning(Class serviceClass, Context context) {
