@@ -1,4 +1,4 @@
-package com.cloudway.mcpieper;
+package com.mcpieperteam.mcpieper;
 
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -543,7 +543,7 @@ public class MainActivity extends AppCompatActivity
             i.setData(Uri.parse(url));
             startActivity(i);
         } else if (id == R.id.becomebeta) {
-            String url = "https://play.google.com/apps/testing/com.cloudway.mcpieper";
+            String url = "https://play.google.com/apps/testing/com.mcpieperteam.mcpieper";
 
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));

@@ -1,4 +1,4 @@
-package com.cloudway.mcpieper;
+package com.mcpieperteam.mcpieper;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.cloudway.mcpieper.R;
+import com.mcpieperteam.mcpieper.R;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
