@@ -12,6 +12,8 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 
+import static com.mcpieperteam.mcpieper.NotificationProvider.CHANNEL_ID_dienst;
+
 public class Receiver extends BroadcastReceiver {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -47,39 +49,27 @@ public class Receiver extends BroadcastReceiver {
         return false;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     private void showNotification(String title, String message, Context context) {
 
 
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, NotificationMgr.class);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default")
+        android.app.Notification builder = new NotificationCompat.Builder(context, CHANNEL_ID_dienst)
                 .setSmallIcon(R.drawable.mcpieper_icon)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .build();
 
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder.setChannelId("com.myApp");
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    "com.myApp",
-                    "My App",
-                    NotificationManager.IMPORTANCE_DEFAULT
-            );
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
-        notificationManager.notify(2, builder.build());
+        notificationManager.notify(2, builder);
     }
 }

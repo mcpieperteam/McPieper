@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.Date;
 
 import static com.mcpieperteam.mcpieper.NotificationProvider.CHANNEL_ID;
+import static com.mcpieperteam.mcpieper.NotificationProvider.CHANNEL_ID_dienst;
 
 public class NotificationMgr extends Service {
     //hi
@@ -141,7 +142,6 @@ public class NotificationMgr extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void showNotification(String title, String message) {
         final Context context = this;
 
@@ -150,18 +150,19 @@ public class NotificationMgr extends Service {
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default")
+        android.app.Notification builder = new NotificationCompat.Builder(this, CHANNEL_ID_dienst)
                 .setSmallIcon(R.drawable.mcpieper_icon)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .build();
 
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             builder.setChannelId("com.myApp");
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -173,8 +174,8 @@ public class NotificationMgr extends Service {
             if (notificationManager != null) {
                 notificationManager.createNotificationChannel(channel);
             }
-        }
-        notificationManager.notify(2, builder.build());
+        }*/
+        notificationManager.notify(2, builder);
     }
 
     @Override
