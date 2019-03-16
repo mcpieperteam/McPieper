@@ -91,13 +91,13 @@ public class MainActivity extends AppCompatActivity
                 if (info != null) {
                     scheduler.cancel(JodScheduler_one);
                     int resulteCode = scheduler.schedule(info);
-                    if(resulteCode == JobScheduler.RESULT_SUCCESS){
+                    if (resulteCode == JobScheduler.RESULT_SUCCESS) {
                         Log.d("Job", "started");
-                    }else{
-                        Log.e("Job","failed");
+                    } else {
+                        Log.e("Job", "failed");
                     }
-                }else{
-                    Log.e("Job","failed info");
+                } else {
+                    Log.e("Job", "failed info");
                 }
             }
 
@@ -357,27 +357,29 @@ public class MainActivity extends AppCompatActivity
                         while ((line = r.readLine()) != null) {
                             total.append(line);
                         }
-
-                        final String[] result = total.toString().split(";");
-                        if (result[1].contains("m")) {
-                            result[1] = "Dienst haben morgen : \n";
-                        } else {
-                            result[1] = "Dienst haben heute : \n";
-                        }
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                String group = "";
-                                if (result.length != 3) {
-                                    group = "Wochenende";
-                                } else {
-                                    group = result[2];
-                                }
-                                TextView info_home = findViewById(R.id.info_home);
-                                info_home.setText("Woche : " + result[0] + "\n" + result[1] + group);
+                        if (total.toString() != "903") {
+                            final String[] result = total.toString().split(";");
+                            if (result[1].contains("m")) {
+                                result[1] = "Dienst haben morgen : \n";
+                            } else {
+                                result[1] = "Dienst haben heute : \n";
                             }
-                        });
-
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String group = "";
+                                    if (result.length != 3) {
+                                        group = "Wochenende";
+                                    } else {
+                                        group = result[2];
+                                    }
+                                    TextView info_home = findViewById(R.id.info_home);
+                                    info_home.setText("Woche : " + result[0] + "\n" + result[1] + group);
+                                }
+                            });
+                        }else{
+                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                        }
                     } finally {
                         urlConnection.disconnect();
 
