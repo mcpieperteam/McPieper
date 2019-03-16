@@ -52,6 +52,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_one_info" />
         </receiver>
+        <service android:name=".BackgroundJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
     </application>
 
 </manifest>
