@@ -24,6 +24,7 @@ public class BackgroundJobService extends JobService {
                 } else {
                     context.startService(intent_start);
                 }
+                Log.d("Job", "start serviece");
             }
         } catch (Exception ignored) {
 
@@ -36,6 +37,7 @@ public class BackgroundJobService extends JobService {
     public boolean onStopJob(JobParameters params) {
         return true;
     }
+
     private boolean isServiceRunning(Class serviceClass, Context context) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
