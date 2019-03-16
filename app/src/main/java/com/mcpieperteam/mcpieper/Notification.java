@@ -43,7 +43,7 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    /*@RequiresApi(api = Build.VERSION_CODES.O)
     private void showNotification(String title, String message) {
         final Context context = this;
 
@@ -77,7 +77,7 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
             }
         }
         notificationManager.notify(2, builder.build());
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
