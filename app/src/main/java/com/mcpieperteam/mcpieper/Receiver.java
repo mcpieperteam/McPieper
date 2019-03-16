@@ -1,5 +1,6 @@
-package com.cloudway.mcpieper;
+package com.mcpieperteam.mcpieper;
 
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -10,18 +11,18 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
-public class autostart extends BroadcastReceiver {
+public class Receiver extends BroadcastReceiver {
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onReceive(Context context, Intent intent) {
-        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            try {
-                AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                Intent intent_alarm = new Intent(context, Receiver.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 1, intent_alarm, 0);
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 30000, pendingIntent);
+    public void onReceive(final Context context, Intent intent_old) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, Receiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 1, intent, 0);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1800000, pendingIntent);
+        try {
+            if (!isServiceRunning(NotificationMgr.class, context)) {
 
                 Intent intent_start = new Intent(context, NotificationMgr.class);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -29,12 +30,23 @@ public class autostart extends BroadcastReceiver {
                 } else {
                     context.startService(intent_start);
                 }
+            }
+        } catch (Exception e) {
+            showNotification("Error", "Bitte starte die McPieper App!!!", context);
+        }
 
-            } catch (Exception e) {
-                showNotification("Error", "Bitte starte die McPieper App!!!", context);
+    }
+
+    private boolean isServiceRunning(Class serviceClass, Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
             }
         }
+        return false;
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void showNotification(String title, String message, Context context) {
 
@@ -70,8 +82,4 @@ public class autostart extends BroadcastReceiver {
         }
         notificationManager.notify(2, builder.build());
     }
-
 }
-
-
-
