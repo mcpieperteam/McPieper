@@ -1,4 +1,4 @@
-package com.cloudway.mcpieper;
+package com.mcpieperteam.mcpieper;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -26,7 +26,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
-import static com.cloudway.mcpieper.NotificationProvider.CHANNEL_ID;
+import static com.mcpieperteam.mcpieper.NotificationProvider.CHANNEL_ID;
 
 public class NotificationMgr extends Service {
     //hi
