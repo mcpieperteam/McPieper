@@ -5,43 +5,37 @@ import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.WallpaperManager;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.appwidget.AppWidgetManager;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
-
-import com.cloudway.mcpieper.R;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -51,19 +45,18 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
 import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
+    public final static Integer JodScheduler_one = 1;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
 
         setContentView(R.layout.activity_main);
@@ -77,17 +70,39 @@ public class MainActivity extends AppCompatActivity
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(this, Receiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+10000, pendingIntent);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, pendingIntent);
 
             startService(new Intent(this, NotificationMgr.class));
 
             Intent intent_w_one = new Intent(this, Widget_one_Provider.class);
             intent_w_one.setAction("android.appwidget.action.APPWIDGET_UPDATE");
             int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), Widget_one_Provider.class));
-            intent_w_one.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+            intent_w_one.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
             sendBroadcast(intent_w_one);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ComponentName componentName = new ComponentName(this, BackgroundJobService.class);
+                JobInfo info = new JobInfo.Builder(JodScheduler_one, componentName)
+                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                        .setPersisted(true)
+                        .setPeriodic(15 * 60 * 1000)
+                        .build();
+                JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+                if (info != null) {
+                    scheduler.cancel(JodScheduler_one);
+                    int resulteCode = scheduler.schedule(info);
+                    if(resulteCode == JobScheduler.RESULT_SUCCESS){
+                        Log.d("Job", "started");
+                    }else{
+                        Log.e("Job","failed");
+                    }
+                }else{
+                    Log.e("Job","failed info");
+                }
+            }
+
         }
-        
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -302,15 +317,16 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
-    public void onChange_switch(View v){
-        if(v.getId() == R.id.save_enerdie_switch){
+
+    public void onChange_switch(View v) {
+        if (v.getId() == R.id.save_enerdie_switch) {
             Switch swit = findViewById(R.id.save_enerdie_switch);
             SharedPreferences preferences = getSharedPreferences("refresh", 0);
             SharedPreferences.Editor edit = preferences.edit();
             edit.putBoolean("save_engergie", swit.isChecked());
-            if(swit.isChecked()){
+            if (swit.isChecked()) {
                 Toast.makeText(this, "Energiesparmodus aktiviert!!!", Toast.LENGTH_LONG).show();
-            }else{
+            } else {
                 Toast.makeText(this, "Energiesparmodus deaktiviert!!!", Toast.LENGTH_LONG).show();
                 startService(new Intent(this, NotificationMgr.class));
             }

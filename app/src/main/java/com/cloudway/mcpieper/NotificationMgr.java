@@ -200,6 +200,7 @@ public class NotificationMgr extends Service {
                     .setPriority(NotificationCompat.PRIORITY_MIN)
                     .setOnlyAlertOnce(true)
                     .setColor(Color.rgb(205,100,100))
+                    .setShowWhen(false)
                     .build();
 
             startForeground(1, notification);
