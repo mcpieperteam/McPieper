@@ -1,4 +1,4 @@
-package com.cloudway.mcpieper;
+package com.mcpieperteam.mcpieper;
 
 import android.app.ActivityManager;
 import android.app.AlarmManager;
