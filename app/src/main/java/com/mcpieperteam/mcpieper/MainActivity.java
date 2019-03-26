@@ -395,7 +395,7 @@ public class MainActivity extends AppCompatActivity
         })).start();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    /*@RequiresApi(api = Build.VERSION_CODES.O)
     private void showNotification(String title, String message) {
         final Context context = this;
 
@@ -429,7 +429,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         notificationManager.notify(2, builder.build());
-    }
+    }*/
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -531,11 +531,12 @@ public class MainActivity extends AppCompatActivity
             ImageView imageButton = (ImageView) findViewById(R.id.change_pwd_btn);
             imageButton.setOnClickListener(this);
         } else if (id == R.id.playstore) {
-            String url = R.string.main_playstore + "";
-
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
+            final String appPackageName = R.string.main_playstore +"";
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
         } else if (id == R.id.website) {
             String url = "http://jusax.dnshome.de/s/";
 
