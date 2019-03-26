@@ -73,7 +73,8 @@ public class LoginActivity extends AppCompatActivity {
                                     finish();
                                 } else {
                                     String[] answrs = {"Probleme bei der Anmeldung",
-                                            "Das soll der/das richtige Nutzername/Passwort sein?","Login nicht erfolgreich"," ein Fehler ist aufgetreten ist?"};
+                                            "Das soll der/das richtige Nutzername/Passwort sein? Hätteste wohl gerne","Login nicht erfolgreich",
+                                            "Ich will gerade nicht... kannst es ja später nochmal versuchen", "Wie oft soll ich dir denn noch sagen, dass ein Fehler aufgetreten ist?"};
 
                                     Snackbar.make(login_btn, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                                             .setAction("Action", null).show();
