@@ -124,7 +124,7 @@ public class NotificationMgr extends Service {
                         })).start();
                     }
 
-                    timer.postDelayed(this, 5 * 60000);
+                    timer.postDelayed(this, 10 * 60000);
                     if (save_energie) {
                         stopService(new Intent(getApplicationContext(), NotificationMgr.class));
                     }
