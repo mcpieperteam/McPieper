@@ -20,16 +20,7 @@ public class McFirebaseInstanceServiece extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         Log.d("MyFirebase", "reseived");
 
-        Date d = new Date();
-        String day = "morgen";
-        if(d.getHours()<16){
-            day = "heute";
-        }
-        if(!remoteMessage.getData().isEmpty()){
-            showNotification("Du hast "+day+" Dienst", "... mit "+remoteMessage.getData().get("names")+"!!!");
-        }else {
-            showNotification("Du hast "+day+" Dienst", "Vergiss nicht den Pieper abzuholen!!!");
-        }
+       showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
 
     }
 
