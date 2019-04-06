@@ -21,6 +21,7 @@ public class NotificationProvider extends Application {
             NotificationChannel serviceChannel_1 = new NotificationChannel(
                     CHANNEL_ID,
                     "Sync McPieper",
+                    //NotificationManager.IMPORTANCE_MIN,
                     NotificationManager.IMPORTANCE_MIN
             );
             serviceChannel_1.setShowBadge(false);
@@ -29,6 +30,7 @@ public class NotificationProvider extends Application {
                     CHANNEL_ID_dienst,
                     "McPieper notice",
                     NotificationManager.IMPORTANCE_HIGH
+
             );
 
             NotificationManager manager = getSystemService(NotificationManager.class);
