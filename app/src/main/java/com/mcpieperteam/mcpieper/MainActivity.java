@@ -2,8 +2,6 @@ package com.mcpieperteam.mcpieper;
 
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -20,7 +18,6 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -288,7 +285,18 @@ public class MainActivity extends AppCompatActivity
                                             new_pwd_conf_in.setText("");
                                         }
                                     });
-                                } else if (result.contains("942")) {
+                                } else if (result.contains("942") || result.contains("943")) {
+
+
+                                    Snackbar.make(v, "Das Kennwort darf keine Sonderzeichen enthalten!!!", Snackbar.LENGTH_LONG)
+                                            .setAction("Click me", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    String[] answrs = getResources().getStringArray(R.array.snackbar_click_joke);
+                                                    Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG);
+                                                }
+                                            }).show();
+                                }else {
                                     String[] answrs = {"Bist du zu blöd dein Kennwort zu ändern?",
                                             "Haha es gab ein Problem beim ändern"};
 
@@ -301,6 +309,7 @@ public class MainActivity extends AppCompatActivity
 
                                                 }
                                             }).show();
+
                                 }
                             } finally {
                                 urlConnection.disconnect();
@@ -336,6 +345,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onResume() {
+
         super.onResume();
         SharedPreferences sharedPreferences = getSharedPreferences("login", 0);
         final String usr = sharedPreferences.getString("usr", "");
@@ -377,7 +387,7 @@ public class MainActivity extends AppCompatActivity
                                     info_home.setText("Woche : " + result[0] + "\n" + result[1] + group);
                                 }
                             });
-                        }else{
+                        } else {
                             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                         }
                     } finally {
@@ -393,43 +403,54 @@ public class MainActivity extends AppCompatActivity
 
 
         })).start();
+
+        final String token = sharedPreferences.getString("token", "");
+        final String old = sharedPreferences.getString("token-old", "");
+        if (!token.equals("")) {
+            (new Thread(new Runnable() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void run() {
+
+
+                    try {
+                        URL url = new URL("http://jusax.dnshome.de/s/" + "sani.php?d=" + token + ";" + old + "&act=token&un=" + usr + "&key=" + pwd);
+                        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                        try {
+                            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                            BufferedReader r = new BufferedReader(new InputStreamReader(in));
+                            StringBuilder total = new StringBuilder();
+                            String line;
+                            while ((line = r.readLine()) != null) {
+                                total.append(line);
+                            }
+
+                        } finally {
+                            urlConnection.disconnect();
+
+                        }
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            })).start();
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Firebase ist nicht verfügbar!!!")
+                    .setMessage("Stelle sicher, dass du eine Internetverbindung hast und starte die App neu. Wenn du diese Meldung wieder siehst, dann installiere die App neu.")
+                    .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).show();
+        }
     }
 
-    /*@RequiresApi(api = Build.VERSION_CODES.O)
-    private void showNotification(String title, String message) {
-        final Context context = this;
-
-        Intent intent = new Intent(context, Notification.class);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default")
-                .setSmallIcon(R.drawable.mcpieper_icon)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(pendingIntent);
-
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder.setChannelId("com.myApp");
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    "com.myApp",
-                    "My App",
-                    NotificationManager.IMPORTANCE_DEFAULT
-            );
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
-        notificationManager.notify(2, builder.build());
-    }*/
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -531,7 +552,7 @@ public class MainActivity extends AppCompatActivity
             ImageView imageButton = (ImageView) findViewById(R.id.change_pwd_btn);
             imageButton.setOnClickListener(this);
         } else if (id == R.id.playstore) {
-            final String appPackageName = R.string.main_playstore +"";
+            final String appPackageName = R.string.main_playstore + "";
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
             } catch (android.content.ActivityNotFoundException anfe) {
