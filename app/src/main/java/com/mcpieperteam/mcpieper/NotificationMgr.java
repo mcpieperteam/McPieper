@@ -76,10 +76,11 @@ public class NotificationMgr extends Service {
                     int last_month = preferences.getInt("last_month", 0);
                     int last_year = preferences.getInt("last_year", 0);
                     boolean save_energie = preferences.getBoolean("save_engergie", false);
-
+                    boolean brdserviece = preferences.getBoolean("bgrserviece", false);
 
                     //if ((c_day == last_day && last_hour < 7 && c_hour >= 16 && last_hour != c_hour) || /*(c_day == last_day && last_hour >= 16 && c_hour < 7 && last_hour <= c_hour) ||*/ (c_day != last_day && (last_hour < 7 && c_hour >= 16 && last_hour != c_hour)) || (c_day != last_day && (last_hour >= 16 && c_hour <= 7 && last_hour != c_hour))) {
                     if ((c_year > last_year) || (c_year == last_year && c_month > last_month) || (c_year == last_year && c_month == last_month && c_day > last_day + 1) || (c_year == last_year && c_month == last_month && c_day == last_day + 1 && (last_hour < 16 || c_hour > 15)) || (c_year == last_year && c_month == last_month && c_day == last_day && last_hour < 16 && c_hour > 15)) {
+
                         (new Thread(new Runnable() {
                             @RequiresApi(api = Build.VERSION_CODES.O)
                             @Override
@@ -125,7 +126,7 @@ public class NotificationMgr extends Service {
                     }
 
                     timer.postDelayed(this, 10 * 60000);
-                    if (save_energie) {
+                    if (save_energie || !brdserviece) {
                         stopService(new Intent(getApplicationContext(), NotificationMgr.class));
                     }
 
