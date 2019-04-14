@@ -43,7 +43,6 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.mcpieperteam.mcpieper.Receiver" android:enabled="true" android:exported="false"/>
         <receiver android:name="com.mcpieperteam.mcpieper.Widget_one_Provider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
