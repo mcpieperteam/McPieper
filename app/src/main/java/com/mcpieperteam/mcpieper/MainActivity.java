@@ -2,6 +2,7 @@ package com.mcpieperteam.mcpieper;
 
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -63,13 +64,12 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         } else {
-            //start AlarmManager in 10 sek.
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(this, Receiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, pendingIntent);
 
-            startService(new Intent(this, NotificationMgr.class));
+            SharedPreferences preferences = getSharedPreferences("refresh", 0);
+            boolean brdserviece = preferences.getBoolean("bgrserviece", false);
+            if(brdserviece){
+                startService(new Intent(this, NotificationMgr.class));
+            }
 
             Intent intent_w_one = new Intent(this, Widget_one_Provider.class);
             intent_w_one.setAction("android.appwidget.action.APPWIDGET_UPDATE");
@@ -236,6 +236,12 @@ public class MainActivity extends AppCompatActivity
                 onChange_switch(v);
             }
         });
+        findViewById(R.id.no_firebase_switch).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onChange_switch(v);
+            }
+        });
 
     }
 
@@ -335,14 +341,31 @@ public class MainActivity extends AppCompatActivity
             edit.putBoolean("save_engergie", swit.isChecked());
             if (swit.isChecked()) {
                 Toast.makeText(this, "Energiesparmodus aktiviert!!!", Toast.LENGTH_LONG).show();
+                stopService(new Intent(this, NotificationMgr.class));
             } else {
                 Toast.makeText(this, "Energiesparmodus deaktiviert!!!", Toast.LENGTH_LONG).show();
                 startService(new Intent(this, NotificationMgr.class));
             }
             edit.commit();
         }
+        if(v.getId()==R.id.no_firebase_switch){
+            Switch swit = findViewById(R.id.no_firebase_switch);
+            SharedPreferences preferences = getSharedPreferences("refresh", 0);
+            SharedPreferences.Editor edit = preferences.edit();
+            edit.putBoolean("bgrserviece", swit.isChecked());
+            Switch swit_o = findViewById(R.id.save_enerdie_switch);
+            if (swit.isChecked()) {
+                Toast.makeText(this, "Hintergrundserviece aktiviert!!!", Toast.LENGTH_LONG).show();
+                swit_o.setVisibility(View.VISIBLE);
+                startService(new Intent(this, NotificationMgr.class));
+            } else {
+                Toast.makeText(this, "Hintergrundserviece deaktiviert!!!", Toast.LENGTH_LONG).show();
+                swit_o.setVisibility(View.INVISIBLE);
+                stopService(new Intent(this, NotificationMgr.class));
+            }
+            edit.commit();
+        }
     }
-
     @Override
     protected void onResume() {
 

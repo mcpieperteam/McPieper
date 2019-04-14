@@ -19,13 +19,23 @@
         android:orientation="vertical">
 
         <Switch
-            android:id="@+id/save_enerdie_switch"
+            android:id="@+id/no_firebase_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
             android:padding="2dp"
-            android:text="Energiesparmodus"
+            android:text="Hintergrundserviece"
             android:textColor="@color/red" />
+
+        <Switch
+            android:id="@+id/save_enerdie_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="2dp"
+            android:text="Energiesparmodus"
+            android:textColor="@color/red"
+            android:visibility="invisible" />
 
         <LinearLayout
             android:layout_width="match_parent"
