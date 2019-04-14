@@ -5,6 +5,7 @@ import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
@@ -13,23 +14,25 @@ import android.util.Log;
 public class BackgroundJobService extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
-        Log.d("Job", "run");
-        try {
-            Context context = getApplicationContext();
-            if (!isServiceRunning(NotificationMgr.class, context)) {
+        SharedPreferences preferences = getSharedPreferences("refresh", 0);
+        boolean brdserviece = preferences.getBoolean("bgrserviece", false);
+        if (brdserviece) {
+            try {
+                Context context = this;
+                if (!isServiceRunning(NotificationMgr.class, context)) {
 
-                Intent intent_start = new Intent(context, NotificationMgr.class);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    context.startForegroundService(intent_start);
-                } else {
-                    context.startService(intent_start);
+                    Intent intent_start = new Intent(context, NotificationMgr.class);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        context.startForegroundService(intent_start);
+                    } else {
+                        context.startService(intent_start);
+                    }
+                    Log.d("Job", "start serviece");
                 }
-                Log.d("Job", "start serviece");
+            } catch (Exception ignored) {
+
             }
-        } catch (Exception ignored) {
-
         }
-
         return false;
     }
 
