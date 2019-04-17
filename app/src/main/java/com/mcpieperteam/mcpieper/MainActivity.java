@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -331,6 +332,10 @@ public class MainActivity extends AppCompatActivity
                 Snackbar.make(v, "Ein Fehler ist aufgetreten", Snackbar.LENGTH_LONG).show();
             }
         }
+        if(v.getId() == R.id.abmelden){
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
     }
 
     public void onChange_switch(View v) {
@@ -574,6 +579,8 @@ public class MainActivity extends AppCompatActivity
 
             ImageView imageButton = (ImageView) findViewById(R.id.change_pwd_btn);
             imageButton.setOnClickListener(this);
+            Button button = (Button) findViewById(R.id.abmelden);
+            button.setOnClickListener(this);
         } else if (id == R.id.playstore) {
             final String appPackageName = R.string.main_playstore + "";
             try {
