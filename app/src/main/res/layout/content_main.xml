@@ -17,7 +17,7 @@
     <TextView
         android:id="@+id/info_home"
         android:layout_width="wrap_content"
-        android:layout_height="95dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
         android:text="Internetzugang nicht verfügbar"
