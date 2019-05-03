@@ -574,9 +574,11 @@ public class MainActivity extends AppCompatActivity
 
             final SharedPreferences preferences = getSharedPreferences("refresh", 0);
             boolean save_energie = preferences.getBoolean("save_engergie", false);
+            boolean nofire = preferences.getBoolean("bgrserviece", false);
             Switch swit = findViewById(R.id.save_enerdie_switch);
             swit.setChecked(save_energie);
-
+            swit = findViewById(R.id.no_firebase_switch);
+            swit.setChecked(nofire);
             ImageView imageButton = (ImageView) findViewById(R.id.change_pwd_btn);
             imageButton.setOnClickListener(this);
             Button button = (Button) findViewById(R.id.abmelden);
