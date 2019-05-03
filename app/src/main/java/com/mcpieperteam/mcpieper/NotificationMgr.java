@@ -1,4 +1,4 @@
-package com.cloudway.mcpieper;
+package com.mcpieperteam.mcpieper;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,6 +7,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -14,8 +15,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.cloudway.mcpieper.R;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -27,6 +26,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
+import static com.mcpieperteam.mcpieper.NotificationProvider.CHANNEL_ID;
+import static com.mcpieperteam.mcpieper.NotificationProvider.CHANNEL_ID_dienst;
+
 public class NotificationMgr extends Service {
     //hi
 
@@ -36,18 +38,20 @@ public class NotificationMgr extends Service {
     }
 
     public void onDestroy() {
+        final SharedPreferences preferences = getSharedPreferences("refresh", 0);
+        boolean save_energie = preferences.getBoolean("save_engergie", false);
+        if (!save_energie) {
+            Toast.makeText(this, R.string.restart_app, Toast.LENGTH_LONG).show();
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d("crash", "new start");
+                    startService(new Intent(getApplicationContext(), keeper.class));
 
-        Toast.makeText(this, R.string.restart_app, Toast.LENGTH_LONG).show();
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("crash","new start");
-                startService(new Intent(getApplicationContext(), keeper.class));
-
-            }
-        });
-        thread.start();
-
+                }
+            });
+            thread.start();
+        }
     }
 
     @Override
@@ -65,10 +69,18 @@ public class NotificationMgr extends Service {
                     Date d = new Date();
                     int c_hour = d.getHours();
                     int c_day = d.getDay();
+                    int c_year = d.getYear();
+                    int c_month = d.getMonth();
                     int last_hour = preferences.getInt("last_h", 0);
                     int last_day = preferences.getInt("last_d", 0);
+                    int last_month = preferences.getInt("last_month", 0);
+                    int last_year = preferences.getInt("last_year", 0);
+                    boolean save_energie = preferences.getBoolean("save_engergie", false);
+                    boolean brdserviece = preferences.getBoolean("bgrserviece", false);
 
-                    if ((c_day == last_day && last_hour <= 7 && c_hour >= 16 && last_hour != c_hour) || (c_day == last_day && last_hour >= 16 && c_hour <= 7 && last_hour <= c_hour) || (c_day != last_day && (last_hour <= 7 && c_hour >= 16 && last_hour != c_hour)) || (c_day != last_day && (last_hour >= 16 && c_hour <= 7 && last_hour != c_hour))) {
+                    //if ((c_day == last_day && last_hour < 7 && c_hour >= 16 && last_hour != c_hour) || /*(c_day == last_day && last_hour >= 16 && c_hour < 7 && last_hour <= c_hour) ||*/ (c_day != last_day && (last_hour < 7 && c_hour >= 16 && last_hour != c_hour)) || (c_day != last_day && (last_hour >= 16 && c_hour <= 7 && last_hour != c_hour))) {
+                    if ((c_year > last_year) || (c_year == last_year && c_month > last_month) || (c_year == last_year && c_month == last_month && c_day > last_day + 1) || (c_year == last_year && c_month == last_month && c_day == last_day + 1 && (last_hour < 16 || c_hour > 15)) || (c_year == last_year && c_month == last_month && c_day == last_day && last_hour < 16 && c_hour > 15)) {
+
                         (new Thread(new Runnable() {
                             @RequiresApi(api = Build.VERSION_CODES.O)
                             @Override
@@ -112,7 +124,12 @@ public class NotificationMgr extends Service {
 
                         })).start();
                     }
-                    timer.postDelayed(this, 5 * 60000);
+
+                    timer.postDelayed(this, 10 * 60000);
+                    if (save_energie || !brdserviece) {
+                        stopService(new Intent(getApplicationContext(), NotificationMgr.class));
+                    }
+
                 }
             }, 0);
         }
@@ -126,7 +143,6 @@ public class NotificationMgr extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void showNotification(String title, String message) {
         final Context context = this;
 
@@ -135,36 +151,47 @@ public class NotificationMgr extends Service {
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default")
+        android.app.Notification builder = new NotificationCompat.Builder(this, CHANNEL_ID_dienst)
                 .setSmallIcon(R.drawable.mcpieper_icon)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .build();
 
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder.setChannelId("com.myApp");
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    "com.myApp",
-                    "My App",
-                    NotificationManager.IMPORTANCE_DEFAULT
-            );
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
-        notificationManager.notify(2, builder.build());
+        notificationManager.notify(2, builder);
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
 
         return super.onUnbind(intent);
+    }
+
+    @Override
+    public void onCreate() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            Intent notificationIntent = new Intent(this, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                    0, notificationIntent, 0);
+
+            android.app.Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setContentTitle("McPieper")
+                    .setContentText("Du bekommst Bescheid...")
+                    .setSmallIcon(R.drawable.mcpieper_icon)
+                    .setContentIntent(pendingIntent)
+                    .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                    .setPriority(NotificationCompat.PRIORITY_MIN)
+                    .setOnlyAlertOnce(true)
+                    .setColor(Color.rgb(205,100,100))
+                    .setShowWhen(false)
+                    .build();
+
+            startForeground(1, notification);
+        }
     }
 }

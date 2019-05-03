@@ -1,13 +1,11 @@
-package com.cloudway.mcpieper;
+package com.mcpieperteam.mcpieper;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,12 +13,10 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
-import com.cloudway.mcpieper.R;
+import com.mcpieperteam.mcpieper.R;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -47,7 +43,7 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    /*@RequiresApi(api = Build.VERSION_CODES.O)
     private void showNotification(String title, String message) {
         final Context context = this;
 
@@ -81,7 +77,7 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
             }
         }
         notificationManager.notify(2, builder.build());
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
@@ -94,6 +90,8 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
                 Date d = new Date();
                 edit.putInt("last_h", d.getHours());
                 edit.putInt("last_d", d.getDay());
+                edit.putInt("last_year", d.getYear());
+                edit.putInt("last_month", d.getMonth());
                 edit.commit();
                 Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -141,6 +139,8 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
                                     Date d = new Date();
                                     edit.putInt("last_h", d.getHours());
                                     edit.putInt("last_d", d.getDay());
+                                    edit.putInt("last_year", d.getYear());
+                                    edit.putInt("last_month", d.getMonth());
                                     edit.commit();
                                     runOnUiThread(new Runnable() {
                                         @Override

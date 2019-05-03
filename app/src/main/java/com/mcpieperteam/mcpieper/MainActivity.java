@@ -1,45 +1,40 @@
-package com.cloudway.mcpieper;
+package com.mcpieperteam.mcpieper;
 
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.WallpaperManager;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.appwidget.AppWidgetManager;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
-
-import com.cloudway.mcpieper.R;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -55,16 +50,12 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
+    public final static Integer JodScheduler_one = 1;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //start AlarmManager in 10 sek.
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, Receiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+10000, pendingIntent);
 
 
         setContentView(R.layout.activity_main);
@@ -74,14 +65,42 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         } else {
-            startService(new Intent(this, NotificationMgr.class));
+
+            SharedPreferences preferences = getSharedPreferences("refresh", 0);
+            boolean brdserviece = preferences.getBoolean("bgrserviece", false);
+            if(brdserviece){
+                startService(new Intent(this, NotificationMgr.class));
+            }
+
             Intent intent_w_one = new Intent(this, Widget_one_Provider.class);
             intent_w_one.setAction("android.appwidget.action.APPWIDGET_UPDATE");
             int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), Widget_one_Provider.class));
-            intent_w_one.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+            intent_w_one.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
             sendBroadcast(intent_w_one);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ComponentName componentName = new ComponentName(this, BackgroundJobService.class);
+                JobInfo info = new JobInfo.Builder(JodScheduler_one, componentName)
+                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                        .setPersisted(true)
+                        .setPeriodic(15 * 60 * 1000)
+                        .build();
+                JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+                if (info != null) {
+                    scheduler.cancel(JodScheduler_one);
+                    int resulteCode = scheduler.schedule(info);
+                    if (resulteCode == JobScheduler.RESULT_SUCCESS) {
+                        Log.d("Job", "started");
+                    } else {
+                        Log.e("Job", "failed");
+                    }
+                } else {
+                    Log.e("Job", "failed info");
+                }
+            }
+
         }
-        
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -211,7 +230,19 @@ public class MainActivity extends AppCompatActivity
 
         ViewFlipper v = findViewById(R.id.disp);
         v.setDisplayedChild(0);
-
+        Switch switchh = findViewById(R.id.save_enerdie_switch);
+        switchh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onChange_switch(v);
+            }
+        });
+        findViewById(R.id.no_firebase_switch).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onChange_switch(v);
+            }
+        });
 
     }
 
@@ -261,7 +292,18 @@ public class MainActivity extends AppCompatActivity
                                             new_pwd_conf_in.setText("");
                                         }
                                     });
-                                } else if (result.contains("942")) {
+                                } else if (result.contains("942") || result.contains("943")) {
+
+
+                                    Snackbar.make(v, "Das Kennwort darf keine Sonderzeichen enthalten!!!", Snackbar.LENGTH_LONG)
+                                            .setAction("Click me", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    String[] answrs = getResources().getStringArray(R.array.snackbar_click_joke);
+                                                    Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG);
+                                                }
+                                            }).show();
+                                }else {
                                     String[] answrs = {"Bist du zu blöd dein Kennwort zu ändern?",
                                             "Haha es gab ein Problem beim ändern"};
 
@@ -274,6 +316,7 @@ public class MainActivity extends AppCompatActivity
 
                                                 }
                                             }).show();
+
                                 }
                             } finally {
                                 urlConnection.disconnect();
@@ -289,10 +332,48 @@ public class MainActivity extends AppCompatActivity
                 Snackbar.make(v, "Ein Fehler ist aufgetreten", Snackbar.LENGTH_LONG).show();
             }
         }
+        if(v.getId() == R.id.abmelden){
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
     }
 
+    public void onChange_switch(View v) {
+        if (v.getId() == R.id.save_enerdie_switch) {
+            Switch swit = findViewById(R.id.save_enerdie_switch);
+            SharedPreferences preferences = getSharedPreferences("refresh", 0);
+            SharedPreferences.Editor edit = preferences.edit();
+            edit.putBoolean("save_engergie", swit.isChecked());
+            if (swit.isChecked()) {
+                Toast.makeText(this, "Energiesparmodus aktiviert!!!", Toast.LENGTH_LONG).show();
+                stopService(new Intent(this, NotificationMgr.class));
+            } else {
+                Toast.makeText(this, "Energiesparmodus deaktiviert!!!", Toast.LENGTH_LONG).show();
+                startService(new Intent(this, NotificationMgr.class));
+            }
+            edit.commit();
+        }
+        if(v.getId()==R.id.no_firebase_switch){
+            Switch swit = findViewById(R.id.no_firebase_switch);
+            SharedPreferences preferences = getSharedPreferences("refresh", 0);
+            SharedPreferences.Editor edit = preferences.edit();
+            edit.putBoolean("bgrserviece", swit.isChecked());
+            Switch swit_o = findViewById(R.id.save_enerdie_switch);
+            if (swit.isChecked()) {
+                Toast.makeText(this, "Hintergrundserviece aktiviert!!!", Toast.LENGTH_LONG).show();
+                swit_o.setVisibility(View.VISIBLE);
+                startService(new Intent(this, NotificationMgr.class));
+            } else {
+                Toast.makeText(this, "Hintergrundserviece deaktiviert!!!", Toast.LENGTH_LONG).show();
+                swit_o.setVisibility(View.INVISIBLE);
+                stopService(new Intent(this, NotificationMgr.class));
+            }
+            edit.commit();
+        }
+    }
     @Override
     protected void onResume() {
+
         super.onResume();
         SharedPreferences sharedPreferences = getSharedPreferences("login", 0);
         final String usr = sharedPreferences.getString("usr", "");
@@ -314,27 +395,29 @@ public class MainActivity extends AppCompatActivity
                         while ((line = r.readLine()) != null) {
                             total.append(line);
                         }
-
-                        final String[] result = total.toString().split(";");
-                        if (result[1].contains("m")) {
-                            result[1] = "Dienst haben morgen : \n";
-                        } else {
-                            result[1] = "Dienst haben heute : \n";
-                        }
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                String group = "";
-                                if (result.length != 3) {
-                                    group = "Wochenende";
-                                } else {
-                                    group = result[2];
-                                }
-                                TextView info_home = findViewById(R.id.info_home);
-                                info_home.setText("Woche : " + result[0] + "\n" + result[1] + group);
+                        if (total.toString() != "903") {
+                            final String[] result = total.toString().split(";");
+                            if (result[1].contains("m")) {
+                                result[1] = "Dienst haben morgen : \n";
+                            } else {
+                                result[1] = "Dienst haben heute : \n";
                             }
-                        });
-
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String group = "";
+                                    if (result.length != 3) {
+                                        group = "Wochenende";
+                                    } else {
+                                        group = result[2];
+                                    }
+                                    TextView info_home = findViewById(R.id.info_home);
+                                    info_home.setText("Woche : " + result[0] + "\n" + result[1] + group);
+                                }
+                            });
+                        } else {
+                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                        }
                     } finally {
                         urlConnection.disconnect();
 
@@ -348,43 +431,54 @@ public class MainActivity extends AppCompatActivity
 
 
         })).start();
+
+        final String token = sharedPreferences.getString("token", "");
+        final String old = sharedPreferences.getString("token-old", "");
+        if (!token.equals("")) {
+            (new Thread(new Runnable() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void run() {
+
+
+                    try {
+                        URL url = new URL("http://jusax.dnshome.de/s/" + "sani.php?d=" + token + ";" + old + "&act=token&un=" + usr + "&key=" + pwd);
+                        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                        try {
+                            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                            BufferedReader r = new BufferedReader(new InputStreamReader(in));
+                            StringBuilder total = new StringBuilder();
+                            String line;
+                            while ((line = r.readLine()) != null) {
+                                total.append(line);
+                            }
+
+                        } finally {
+                            urlConnection.disconnect();
+
+                        }
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            })).start();
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Firebase ist nicht verfügbar!!!")
+                    .setMessage("Stelle sicher, dass du eine Internetverbindung hast und starte die App neu. Wenn du diese Meldung wieder siehst, dann installiere die App neu.")
+                    .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).show();
+        }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void showNotification(String title, String message) {
-        final Context context = this;
-
-        Intent intent = new Intent(context, Notification.class);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default")
-                .setSmallIcon(R.drawable.mcpieper_icon)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(pendingIntent);
-
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder.setChannelId("com.myApp");
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    "com.myApp",
-                    "My App",
-                    NotificationManager.IMPORTANCE_DEFAULT
-            );
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
-        notificationManager.notify(2, builder.build());
-    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -477,18 +571,28 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.settings) {
             v.setDisplayedChild(1);
-            WallpaperManager wpm = WallpaperManager.getInstance(this);
-            Drawable d = wpm.getDrawable();
-            LinearLayout l = findViewById(R.id.bg_settings);
-            l.setBackground(d);
+
+            final SharedPreferences preferences = getSharedPreferences("refresh", 0);
+            boolean save_energie = preferences.getBoolean("save_engergie", false);
+            boolean nofire = preferences.getBoolean("bgrserviece", false);
+            Switch swit = findViewById(R.id.save_enerdie_switch);
+            swit.setChecked(save_energie);
+            if(nofire){
+                swit.setVisibility(View.VISIBLE);
+            }
+            swit = findViewById(R.id.no_firebase_switch);
+            swit.setChecked(nofire);
             ImageView imageButton = (ImageView) findViewById(R.id.change_pwd_btn);
             imageButton.setOnClickListener(this);
+            Button button = (Button) findViewById(R.id.abmelden);
+            button.setOnClickListener(this);
         } else if (id == R.id.playstore) {
-            String url = R.string.main_playstore + "";
-
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
+            final String appPackageName = R.string.main_playstore + "";
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
         } else if (id == R.id.website) {
             String url = "http://jusax.dnshome.de/s/";
 
@@ -496,7 +600,7 @@ public class MainActivity extends AppCompatActivity
             i.setData(Uri.parse(url));
             startActivity(i);
         } else if (id == R.id.becomebeta) {
-            String url = "https://play.google.com/apps/testing/com.cloudway.mcpieper";
+            String url = "https://play.google.com/apps/testing/com.mcpieperteam.mcpieper";
 
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));

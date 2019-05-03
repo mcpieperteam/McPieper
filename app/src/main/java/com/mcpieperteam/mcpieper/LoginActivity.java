@@ -1,4 +1,4 @@
-package com.cloudway.mcpieper;
+package com.mcpieperteam.mcpieper;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.cloudway.mcpieper.R;
+import com.mcpieperteam.mcpieper.R;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                                 } else {
                                     String[] answrs = {"Probleme bei der Anmeldung",
                                             "Das soll der/das richtige Nutzername/Passwort sein? Hätteste wohl gerne","Login nicht erfolgreich",
-                                            "Ich will gerade nicht... kannst es ja später nochmal versuchen", "Wie oft soll ich dir denn noch sagen,dass ein Fehler aufgetreten ist?"};
+                                            "Ich will gerade nicht... kannst es ja später nochmal versuchen", "Wie oft soll ich dir denn noch sagen, dass ein Fehler aufgetreten ist?"};
 
                                     Snackbar.make(login_btn, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                                             .setAction("Action", null).show();

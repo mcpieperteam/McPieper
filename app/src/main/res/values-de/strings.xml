@@ -12,7 +12,7 @@
     <string name="alert_no">Nein... Abbruch</string>
     <string name="nav_home">Startseite</string>
     <string name="nav_cancel">Dienstabsagen</string>
-    <string name="nav_settings">Passwort ändern</string>
+    <string name="nav_settings">Einstellungen</string>
     <string name="nav_website">Offizielle Internetseite öffnen</string>
     <string name="nav_calendar">Kalender</string>
     <string name="nav_playstore">App im Playstore anzeigen</string>

@@ -1,4 +1,4 @@
-package com.cloudway.mcpieper;
+package com.mcpieperteam.mcpieper;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -23,7 +22,7 @@ import java.util.List;
 
 public class Widget_one_Provider extends AppWidgetProvider {
     @Override
-    public void onUpdate(Context context, final AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
         for (final int appWidgetId : appWidgetIds) {
 
             final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_one_style);
@@ -54,10 +53,11 @@ public class Widget_one_Provider extends AppWidgetProvider {
                                 } else {
                                     views.setTextViewText(R.id.widget_one_titel, "Sanitäter\n(heute):");
                                 }
-                                String group = result[2];
+                                String group = "";
                                 if (result.length != 3) {
                                     views.setTextViewText(R.id.widget_one_content, "keiner");
                                 } else {
+                                    group = result[2];
                                     views.setTextViewText(R.id.widget_one_content, group);
                                 }
                                 List<String> list = Arrays.asList(group.split(", "));
@@ -75,6 +75,12 @@ public class Widget_one_Provider extends AppWidgetProvider {
                                     min = String.valueOf(d.getMinutes());
                                 }
                                 views.setTextViewText(R.id.widget_one_offline, "Zuletzt aktualisiert: "+String.valueOf(d.getHours())+":"+min);
+
+
+                                Intent intent = new Intent(context, MainActivity.class);
+                                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+                                views.setOnClickPendingIntent(R.id.widget_one, pendingIntent);
+
                             } finally {
                                 appWidgetManager.updateAppWidget(appWidgetId, views);
                                 urlConnection.disconnect();

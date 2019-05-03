@@ -10,10 +10,11 @@
     <string name="alert_content">Do you really want to cancel?</string>
     <string name="alert_yes">Yes</string>
     <string name="alert_no">No... Stop</string>
-    <string name="main_playstore" translatable="false">market://details?id=com.cloudway.mcpieper</string>
+    <string name="main_playstore" translatable="false">com.mcpieperteam.mcpieper</string>
+    <!--<string name="main_playstore" translatable="false">market://details?id=com.cloudway.mcpieper</string>-->
     <string name="nav_home">Home</string>
     <string name="nav_cancel">Cancel</string>
-    <string name="nav_settings">Change Passwort</string>
+    <string name="nav_settings">Settings</string>
     <string name="nav_website">Open Official Website</string>
     <string name="nav_calendar">Calendar</string>
     <string name="nav_playstore">Show App in Playstore</string>
