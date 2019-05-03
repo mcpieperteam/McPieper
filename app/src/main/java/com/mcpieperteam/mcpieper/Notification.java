@@ -35,49 +35,13 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notification);
-        
+
         Button cncl = findViewById(R.id.cancel_serv);
         Button keep = findViewById(R.id.keep_serv);
         cncl.setOnClickListener(this);
         keep.setOnClickListener(this);
 
     }
-
-    /*@RequiresApi(api = Build.VERSION_CODES.O)
-    private void showNotification(String title, String message) {
-        final Context context = this;
-
-        Intent intent = new Intent(context, Notification.class);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default")
-                .setSmallIcon(R.drawable.mcpieper_icon)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(pendingIntent);
-
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder.setChannelId("com.myApp");
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    "com.myApp",
-                    "My App",
-                    NotificationManager.IMPORTANCE_DEFAULT
-            );
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
-        notificationManager.notify(2, builder.build());
-    }*/
 
     @Override
     public void onClick(View v) {
@@ -202,9 +166,9 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
                                         }
                                     });
                                 } else if (result.contains("974")) {
-                                    String[] answrs = {"Opfer... Du hast immernoch Dienst",
-                                            "Unerfolgreich: Bist du ne Schildkröte oder weshalb sagst du zu spät ab?", "Zu spät... Du hast immernoch Dienst",
-                                            "Du weißt schon, dass du zwischen 16Uhr und 7Uhr absagen musst? Ist das zu viel verlangt?"};
+                                    String[] answrs = {"Du hast immernoch Dienst",
+                                            "Du hast zu spät abgesagt", "Zu spät... Du hast immernoch Dienst",
+                                            "Du weißt schon, dass du zwischen 16Uhr und 7Uhr absagen musst?"};
 
                                     Snackbar.make(view, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                                             .setAction("Action", new View.OnClickListener() {

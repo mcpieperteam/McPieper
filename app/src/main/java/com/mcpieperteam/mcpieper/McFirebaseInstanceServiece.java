@@ -21,7 +21,7 @@ public class McFirebaseInstanceServiece extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Log.d("MyFirebase", "reseived");
+        Log.d("MyFirebase", "recieved");
 
        showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
 
