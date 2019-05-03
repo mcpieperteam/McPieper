@@ -396,7 +396,7 @@ public class MainActivity extends AppCompatActivity
                         while ((line = r.readLine()) != null) {
                             total.append(line);
                         }
-                        if (total.toString() != "903") {
+                        if (!total.toString().equals("903")) {
                             final String[] result = total.toString().split(";");
                             if (result[1].contains("m")) {
                                 result[1] = "Dienst haben morgen : \n";
