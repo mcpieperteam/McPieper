@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        
         final FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity
                                 String result = total.toString();
                                 if (result.contains("941")) {
                                     String[] answrs = {"Passwort geändert",
-                                            "Oh du bist intelligent genug um dein Kennwort zu ändern", "Dein Neues Kennwort ist ********"};
+                                            "Dein neues Passwort ist: ******", "Dein Neues Kennwort ist ********"};
 
                                     Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                                             .setAction("Action", null).show();
@@ -305,8 +305,8 @@ public class MainActivity extends AppCompatActivity
                                                 }
                                             }).show();
                                 }else {
-                                    String[] answrs = {"Bist du zu blöd dein Kennwort zu ändern?",
-                                            "Haha es gab ein Problem beim ändern"};
+                                    String[] answrs = {"Ein Problem trat auf beim ändern deines Kennworts",
+                                            "Problem beim ändern"};
 
                                     Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                                             .setAction("Click me", new View.OnClickListener() {
@@ -361,11 +361,11 @@ public class MainActivity extends AppCompatActivity
             edit.putBoolean("bgrserviece", swit.isChecked());
             Switch swit_o = findViewById(R.id.save_enerdie_switch);
             if (swit.isChecked()) {
-                Toast.makeText(this, "Hintergrundserviece aktiviert!!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Hintergrundservice aktiviert!!!", Toast.LENGTH_LONG).show();
                 swit_o.setVisibility(View.VISIBLE);
                 startService(new Intent(this, NotificationMgr.class));
             } else {
-                Toast.makeText(this, "Hintergrundserviece deaktiviert!!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Hintergrundservice deaktiviert!!!", Toast.LENGTH_LONG).show();
                 swit_o.setVisibility(View.INVISIBLE);
                 stopService(new Intent(this, NotificationMgr.class));
             }

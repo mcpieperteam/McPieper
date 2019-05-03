@@ -51,9 +51,8 @@ public class LoginActivity extends AppCompatActivity {
                                     total.append(line);
                                 }
                                 if (total.toString().contains("901")) {
-                                    String[] answrs = {"Und noch son Sanitäter... Nagut auf ein neues",
-                                            "Willkommen bei McPieper ihre Bestellung bitte?","Login erfolgreich",
-                                            "Jetzt kanns losgehen"};
+                                    String[] answrs = {"Login erfolgreich",
+                                            "Anmeldung erfolgreich"};
 
                                     Snackbar.make(login_btn, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                                             .setAction("Action", null).show();
@@ -72,9 +71,8 @@ public class LoginActivity extends AppCompatActivity {
                                     sendBroadcast(intent_w_one);
                                     finish();
                                 } else {
-                                    String[] answrs = {"Probleme bei der Anmeldung",
-                                            "Das soll der/das richtige Nutzername/Passwort sein? Hätteste wohl gerne","Login nicht erfolgreich",
-                                            "Ich will gerade nicht... kannst es ja später nochmal versuchen", "Wie oft soll ich dir denn noch sagen, dass ein Fehler aufgetreten ist?"};
+                                    String[] answrs = {"Es traten Probleme bei der Anmeldung auf",
+                                            "Nutzername/Passwort falsch","Login nicht erfolgreich"," Ein Fehler ist aufgetreten ist"};
 
                                     Snackbar.make(login_btn, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                                             .setAction("Action", null).show();
