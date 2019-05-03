@@ -588,11 +588,11 @@ public class MainActivity extends AppCompatActivity
             button.setOnClickListener(this);
         } else if (id == R.id.playstore) {
             final String appPackageName = R.string.main_playstore + "";
-            try {
+            /*try {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-            } catch (android.content.ActivityNotFoundException anfe) {
+            } catch (android.content.ActivityNotFoundException anfe) {*/
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-            }
+            //s}
         } else if (id == R.id.website) {
             String url = "http://jusax.dnshome.de/s/";
 
