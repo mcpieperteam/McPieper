@@ -27,7 +27,7 @@ public class BackgroundJobService extends JobService {
                     } else {
                         context.startService(intent_start);
                     }
-                    Log.d("Job", "start serviece");
+                    Log.d("Job", "start service");
                 }
             } catch (Exception ignored) {
 
