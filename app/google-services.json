@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "952355027906",
+    "firebase_url": "https://mcpieper-notification-1.firebaseio.com",
+    "project_id": "mcpieper-notification-1",
+    "storage_bucket": "mcpieper-notification-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:952355027906:android:27593ccf5324653a",
+        "android_client_info": {
+          "package_name": "com.mcpieperteam.mcpieper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "952355027906-5cqb9ochtn24funb950dnuorfhno4nn2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mcpieperteam.mcpieper",
+            "certificate_hash": "2fe6db8442d36c71d3f388646d579177ae5a33fe"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCc-JL5nwBsOf0sASXtFvKfOwibWOBVKm4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "952355027906-6c0d4u0akfb2v3bvr3f3l0ab43po6n4d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
