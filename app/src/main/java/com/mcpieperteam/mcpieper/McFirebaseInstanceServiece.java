@@ -21,11 +21,7 @@ public class McFirebaseInstanceServiece extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-<<<<<<< HEAD
         Log.d("MyFirebase", "recieved");
-=======
-        Log.d("MyFirebase", "reseived");
->>>>>>> 0d8cc266ca438c49325a2e2febc669177ed86783
 
        showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
 
@@ -40,9 +36,7 @@ public class McFirebaseInstanceServiece extends FirebaseMessagingService {
         sharedPreferences.edit().putString("token-old",old).commit();
         sharedPreferences.edit().putString("token",s).commit();
         Log.d("TOKEN", s);
-        //sim: di-LqYFW-lI:APA91bETA95DABpWtKkMngcDj8MvidQoFfqt8ihUtAgREQI-bkyIJXEme1Rkw3DXiqbk48RE-BL9XlIijhCNibowNTFF6oe4r_T1g8OgY0aMh_Q90PX69q8J3yYeSwaqxMZvL4yB5izA
-        //a7: d9yxWDLgOXY:APA91bG7lbWESDXtvgnOdILZM8yYLqgpIZ6NlyZ_hxprmWot_xisohDVCqlBLrqL_3jX02rKPjMgsAhBUQLH8ZJTM166Vt2UhrD75h9KIsr38qPenwPaRcKIQQvVBn42ZCByreYsNlA9
-    }
+            }
     private void showNotification(String title, String message) {
         final Context context = this;
 

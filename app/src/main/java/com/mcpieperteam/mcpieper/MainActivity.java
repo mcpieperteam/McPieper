@@ -2,19 +2,12 @@ package com.mcpieperteam.mcpieper;
 
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-<<<<<<< HEAD:app/src/main/java/com/mcpieperteam/mcpieper/MainActivity.java
-import android.app.Dialog;
-=======
->>>>>>> 0d8cc266ca438c49325a2e2febc669177ed86783:app/src/main/java/com/mcpieperteam/mcpieper/MainActivity.java
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.appwidget.AppWidgetManager;
-<<<<<<< HEAD:app/src/main/java/com/mcpieperteam/mcpieper/MainActivity.java
-=======
 import android.content.ActivityNotFoundException;
->>>>>>> 0d8cc266ca438c49325a2e2febc669177ed86783:app/src/main/java/com/mcpieperteam/mcpieper/MainActivity.java
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -59,11 +52,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     public final static Integer JodScheduler_one = 1;
-<<<<<<< HEAD:app/src/main/java/com/mcpieperteam/mcpieper/MainActivity.java
-    public Dialog loadindscreen;
-=======
 
->>>>>>> 0d8cc266ca438c49325a2e2febc669177ed86783:app/src/main/java/com/mcpieperteam/mcpieper/MainActivity.java
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,9 +104,7 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        loadindscreen = new Dialog(this,android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
-        loadindscreen.setContentView(R.layout.loading_screen_popup);
-        loadindscreen.show();
+        
         final FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -318,13 +305,8 @@ public class MainActivity extends AppCompatActivity
                                                 }
                                             }).show();
                                 }else {
-<<<<<<< HEAD:app/src/main/java/com/mcpieperteam/mcpieper/MainActivity.java
                                     String[] answrs = {"Ein Problem trat auf beim ändern deines Kennworts",
                                             "Problem beim ändern"};
-=======
-                                    String[] answrs = {"Bist du zu blöd dein Kennwort zu ändern?",
-                                            "Haha es gab ein Problem beim ändern"};
->>>>>>> 0d8cc266ca438c49325a2e2febc669177ed86783:app/src/main/java/com/mcpieperteam/mcpieper/MainActivity.java
 
                                     Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                                             .setAction("Click me", new View.OnClickListener() {
@@ -379,19 +361,11 @@ public class MainActivity extends AppCompatActivity
             edit.putBoolean("bgrserviece", swit.isChecked());
             Switch swit_o = findViewById(R.id.save_enerdie_switch);
             if (swit.isChecked()) {
-<<<<<<< HEAD:app/src/main/java/com/mcpieperteam/mcpieper/MainActivity.java
                 Toast.makeText(this, "Hintergrundservice aktiviert!!!", Toast.LENGTH_LONG).show();
                 swit_o.setVisibility(View.VISIBLE);
                 startService(new Intent(this, NotificationMgr.class));
             } else {
                 Toast.makeText(this, "Hintergrundservice deaktiviert!!!", Toast.LENGTH_LONG).show();
-=======
-                Toast.makeText(this, "Hintergrundserviece aktiviert!!!", Toast.LENGTH_LONG).show();
-                swit_o.setVisibility(View.VISIBLE);
-                startService(new Intent(this, NotificationMgr.class));
-            } else {
-                Toast.makeText(this, "Hintergrundserviece deaktiviert!!!", Toast.LENGTH_LONG).show();
->>>>>>> 0d8cc266ca438c49325a2e2febc669177ed86783:app/src/main/java/com/mcpieperteam/mcpieper/MainActivity.java
                 swit_o.setVisibility(View.INVISIBLE);
                 stopService(new Intent(this, NotificationMgr.class));
             }
@@ -614,20 +588,12 @@ public class MainActivity extends AppCompatActivity
             Button button = (Button) findViewById(R.id.abmelden);
             button.setOnClickListener(this);
         } else if (id == R.id.playstore) {
-<<<<<<< HEAD:app/src/main/java/com/mcpieperteam/mcpieper/MainActivity.java
-            final String appPackageName = R.string.main_playstore + "";
-            try {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-            } catch (android.content.ActivityNotFoundException anfe) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-=======
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW,
                         Uri.parse("market://details?id=" + getPackageName())));
             } catch (ActivityNotFoundException e) {
                 startActivity(new Intent(Intent.ACTION_VIEW,
                         Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
->>>>>>> 0d8cc266ca438c49325a2e2febc669177ed86783:app/src/main/java/com/mcpieperteam/mcpieper/MainActivity.java
             }
         } else if (id == R.id.website) {
             String url = "http://jusax.dnshome.de/s/";
