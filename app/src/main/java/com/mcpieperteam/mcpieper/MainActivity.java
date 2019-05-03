@@ -162,9 +162,9 @@ public class MainActivity extends AppCompatActivity
                                                     Snackbar.make(view, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                                                             .setAction("Action", null).show();
                                                 } else if (result.contains("972")) {
-                                                    String[] answrs = {"Opfer... Du hast immernoch Dienst",
-                                                            "Unerfolgreich: Bist du ne Schildkröte oder weshalb sagst du zu spät ab?", "Zu spät... Du hast immernoch Dienst",
-                                                            "Du weißt schon, dass du zwischen 16Uhr und 7Uhr absagen musst? Ist das zu viel verlangt?"};
+                                                    String[] answrs = {"Der Dienst wurde nicht abgesagt.",
+                                                            "Zu spät... Du hast immernoch Dienst",
+                                                            "Du kannst nur zwischen 7 und 16 Uhr absagen!!!"};
 
                                                     Snackbar.make(view, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                                                             .setAction("Click me", new View.OnClickListener() {
@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity
                                             }).show();
                                 }else {
                                     String[] answrs = {"Ein Problem trat auf beim ändern deines Kennworts",
-                                            "Problem beim ändern"};
+                                            "Es gab Probleme beim ändern"};
 
                                     Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                                             .setAction("Click me", new View.OnClickListener() {
