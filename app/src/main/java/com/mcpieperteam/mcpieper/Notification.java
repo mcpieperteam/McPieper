@@ -168,7 +168,7 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
                                 } else if (result.contains("974")) {
                                     String[] answrs = {"Du hast immernoch Dienst",
                                             "Du hast zu spät abgesagt", "Zu spät... Du hast immernoch Dienst",
-                                            "Du musst zwischen 16Uhr und 7Uhr absagen!!!"};
+                                            "Du musst zwischen 16 Uhr und 7 Uhr absagen!!!"};
 
                                     Snackbar.make(view, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                                             .setAction("Action", new View.OnClickListener() {
