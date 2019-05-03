@@ -43,6 +43,11 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
 
     }
 
+<<<<<<< HEAD:app/src/main/java/com/mcpieperteam/mcpieper/Notification.java
+=======
+
+
+>>>>>>> 0d8cc266ca438c49325a2e2febc669177ed86783:app/src/main/java/com/mcpieperteam/mcpieper/Notification.java
     @Override
     public void onClick(View v) {
 
@@ -54,6 +59,10 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
                 Date d = new Date();
                 edit.putInt("last_h", d.getHours());
                 edit.putInt("last_d", d.getDay());
+<<<<<<< HEAD:app/src/main/java/com/mcpieperteam/mcpieper/Notification.java
+=======
+                //
+>>>>>>> 0d8cc266ca438c49325a2e2febc669177ed86783:app/src/main/java/com/mcpieperteam/mcpieper/Notification.java
                 edit.putInt("last_year", d.getYear());
                 edit.putInt("last_month", d.getMonth());
                 edit.commit();

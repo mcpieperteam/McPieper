@@ -73,7 +73,12 @@ public class LoginActivity extends AppCompatActivity {
                                     finish();
                                 } else {
                                     String[] answrs = {"Probleme bei der Anmeldung",
+<<<<<<< HEAD:app/src/main/java/com/mcpieperteam/mcpieper/LoginActivity.java
                                             "Das soll der/das richtige Nutzername/Passwort sein?","Login nicht erfolgreich"," ein Fehler ist aufgetreten ist?"};
+=======
+                                            "Das soll der/das richtige Nutzername/Passwort sein? Hätteste wohl gerne","Login nicht erfolgreich",
+                                            "Ich will gerade nicht... kannst es ja später nochmal versuchen", "Wie oft soll ich dir denn noch sagen, dass ein Fehler aufgetreten ist?"};
+>>>>>>> 0d8cc266ca438c49325a2e2febc669177ed86783:app/src/main/java/com/mcpieperteam/mcpieper/LoginActivity.java
 
                                     Snackbar.make(login_btn, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                                             .setAction("Action", null).show();
