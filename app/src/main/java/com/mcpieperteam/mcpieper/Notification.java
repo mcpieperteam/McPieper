@@ -43,41 +43,7 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    /*@RequiresApi(api = Build.VERSION_CODES.O)
-    private void showNotification(String title, String message) {
-        final Context context = this;
 
-        Intent intent = new Intent(context, Notification.class);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default")
-                .setSmallIcon(R.drawable.mcpieper_icon)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(pendingIntent);
-
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder.setChannelId("com.myApp");
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    "com.myApp",
-                    "My App",
-                    NotificationManager.IMPORTANCE_DEFAULT
-            );
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
-        notificationManager.notify(2, builder.build());
-    }*/
 
     @Override
     public void onClick(View v) {
