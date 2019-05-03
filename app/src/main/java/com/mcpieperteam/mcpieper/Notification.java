@@ -90,6 +90,7 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
                 Date d = new Date();
                 edit.putInt("last_h", d.getHours());
                 edit.putInt("last_d", d.getDay());
+                //
                 edit.putInt("last_year", d.getYear());
                 edit.putInt("last_month", d.getMonth());
                 edit.commit();
