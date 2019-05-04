@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -307,7 +308,9 @@ public class Main2Activity extends AppCompatActivity {
             case R.id.theme_default:
                 setTheme(R.style.AppTheme);
         }
-
+        ActionBar actionBar = getSupportActionBar();
+        SharedPreferences sp = ctx.getSharedPreferences("login", 0);
+        actionBar.setTitle("McPieper: "+sp.getString("usr", ""));
         setContentView(R.layout.activity_main2);
 
         flipper = (ViewFlipper) findViewById(R.id.view_flipper);
@@ -354,7 +357,7 @@ public class Main2Activity extends AppCompatActivity {
             public void onSwipeBottom() {
                 onResume();
                 Toast refresh = new Toast(ctx);
-                refresh.setGravity(Gravity.TOP,0,0);
+                refresh.setGravity(Gravity.TOP,0,15);
                 refresh.setDuration(Toast.LENGTH_SHORT);
                 View toasted_layout = getLayoutInflater().inflate(R.layout.toast_refresh,null);
                 refresh.setView(toasted_layout);
@@ -363,7 +366,6 @@ public class Main2Activity extends AppCompatActivity {
         });
 
 
-        SharedPreferences sp = getSharedPreferences("login", 0);
         if (sp.getBoolean("authed", false) == false) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
