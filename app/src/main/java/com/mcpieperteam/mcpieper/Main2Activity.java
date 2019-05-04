@@ -333,7 +333,7 @@ public class Main2Activity extends AppCompatActivity {
             }
 
             @Override
-            public void onSwipeLeft() {
+            public void onSwipeLeft(){
                 int p = navView.getSelectedItemId();
                 switch (p) {
                     case R.id.navigation_home:
@@ -346,6 +346,12 @@ public class Main2Activity extends AppCompatActivity {
                         //do nothing
                         break;
                 }
+            }
+
+            @Override
+            public void onSwipeBottom() {
+                onResume();
+                Snackbar.make(flipper,"Aktualisiere",Snackbar.LENGTH_LONG).show();
             }
         });
 
