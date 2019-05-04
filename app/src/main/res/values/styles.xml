@@ -13,6 +13,15 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.Transparent" parent="android:Theme.Material.Wallpaper.NoTitleBar">
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+    </style>
+    <style name="AppTheme.Dark" parent="android:Theme.Material.NoActionBar">
+
+    </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
