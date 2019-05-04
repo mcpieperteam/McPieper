@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -13,13 +13,13 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.Transparent" parent="android:Theme.Material.Wallpaper.NoTitleBar">
+    <style name="AppTheme.Transparent" parent="android:Theme.Material.Wallpaper.NoTitleBar" tools:targetApi="lollipop">
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">false</item>
     </style>
-    <style name="AppTheme.Dark" parent="android:Theme.Material.NoActionBar">
+    <style name="AppTheme.Dark" parent="android:Theme.Material.NoActionBar" tools:targetApi="lollipop">
 
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

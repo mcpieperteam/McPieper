@@ -125,7 +125,7 @@ public class Main2Activity extends AppCompatActivity {
                                 Snackbar.make(flipper, "Energiesparmodus deaktiviert!", Snackbar.LENGTH_LONG).show();
                                 startService(new Intent(ctx, NotificationMgr.class));
                             }
-                            edit.apply();
+                            edit.commit();
                         }
                     });
                     //apply switch states on load
@@ -137,7 +137,7 @@ public class Main2Activity extends AppCompatActivity {
                     power_saving_mode_swtch.setChecked(preferences.getBoolean("save_energie", false));
                     //Change Password
                     Button request_pw_change = (Button) flipper.findViewById(R.id.changepw);
-                    final Dialog pw_change_dialog = new Dialog(ctx, android.R.style.Theme_Light_NoTitleBar_Fullscreen);
+                    final Dialog pw_change_dialog = new Dialog(ctx, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
                     pw_change_dialog.setContentView(R.layout.popup_changepwd);
                     //initialise dialog interface
                     Button submit_pwd = (Button) pw_change_dialog.findViewById(R.id.submit_pw_change);
