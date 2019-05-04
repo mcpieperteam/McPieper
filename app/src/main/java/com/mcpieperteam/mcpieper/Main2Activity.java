@@ -1,6 +1,7 @@
 package com.mcpieperteam.mcpieper;
 
 import android.app.AlertDialog;
+import android.app.Application;
 import android.app.Dialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -29,6 +30,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
@@ -197,7 +199,7 @@ public class Main2Activity extends AppCompatActivity {
                                                                     Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG);
                                                                 }
                                                             }).show();
-                                                }else {
+                                                } else {
                                                     String[] answrs = {"Ein Problem trat auf beim ändern deines Kennworts",
                                                             "Es gab Probleme beim ändern"};
 
@@ -260,6 +262,31 @@ public class Main2Activity extends AppCompatActivity {
                             }
                         }
                     });
+                    //Theme Changer
+                    Button change_theme_popup = (Button) flipper.findViewById(R.id.change_theme);
+                    final Dialog theme_changer = new Dialog(ctx, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
+                    theme_changer.setContentView(R.layout.popup_change_theme);
+                    final SharedPreferences sharedPreferences = getSharedPreferences("style",0);
+                    final RadioGroup theme_selector = (RadioGroup) theme_changer.findViewById(R.id.theme_selctor);
+                    change_theme_popup.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            theme_selector.check(sharedPreferences.getInt("theme",R.id.theme_default));
+                            theme_changer.show();
+                        }
+                    });
+                    //theme changer popup
+                    Button submit_new_theme = (Button) theme_changer.findViewById(R.id.submit_theme_change);
+                    submit_new_theme.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putInt("theme",theme_selector.getCheckedRadioButtonId());
+                            editor.commit();
+                            startActivity(new Intent(ctx,Main2Activity.class));
+                            finish();
+                        }
+                    });
                     return true;
                 case R.id.navigation_notifications:
                     flipper.setDisplayedChild(0);
@@ -272,6 +299,18 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences = getSharedPreferences("style", 0);
+        switch (sharedPreferences.getInt("theme",R.id.theme_default)) {
+            case R.id.theme_dark:
+                setTheme(R.style.AppTheme_Dark);
+                break;
+            case R.id.theme_transparent:
+                setTheme(R.style.AppTheme_Transparent);
+                break;
+            case R.id.theme_default:
+                setTheme(R.style.AppTheme);
+        }
+
         setContentView(R.layout.activity_main2);
 
         flipper = (ViewFlipper) findViewById(R.id.view_flipper);
