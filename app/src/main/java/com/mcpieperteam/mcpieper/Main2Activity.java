@@ -1,7 +1,6 @@
 package com.mcpieperteam.mcpieper;
 
 import android.app.AlertDialog;
-import android.app.Application;
 import android.app.Dialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -17,10 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -29,7 +25,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -89,7 +84,7 @@ public class Main2Activity extends AppCompatActivity {
                     });
                     //RequestTechniqueButtons
                     Switch noFB = (Switch) flipper.findViewById(R.id.no_firebase_switch);
-                    Switch power_saving_mode_swtch = (Switch) flipper.findViewById(R.id.save_enerdie_switch);
+                    Switch power_saving_mode_swtch = (Switch) flipper.findViewById(R.id.save_energie_switch);
                     noFB.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -97,7 +92,7 @@ public class Main2Activity extends AppCompatActivity {
                             SharedPreferences preferences = getSharedPreferences("refresh", 0);
                             SharedPreferences.Editor edit = preferences.edit();
                             edit.putBoolean("bgservice", swit.isChecked());
-                            Switch swit_o = findViewById(R.id.save_enerdie_switch);
+                            Switch swit_o = findViewById(R.id.save_energie_switch);
                             if (swit.isChecked()) {
 
                                 Snackbar.make(flipper, "Hintergrundservice aktiviert!", Snackbar.LENGTH_LONG).show();
@@ -114,7 +109,7 @@ public class Main2Activity extends AppCompatActivity {
                     power_saving_mode_swtch.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Switch swit = findViewById(R.id.save_enerdie_switch);
+                            Switch swit = findViewById(R.id.save_energie_switch);
                             SharedPreferences preferences = getSharedPreferences("refresh", 0);
                             SharedPreferences.Editor edit = preferences.edit();
                             edit.putBoolean("save_energie", swit.isChecked());

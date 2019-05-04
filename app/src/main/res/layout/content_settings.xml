@@ -28,7 +28,7 @@
             android:textColor="@color/red" />
 
         <Switch
-            android:id="@+id/save_enerdie_switch"
+            android:id="@+id/save_energie_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
