@@ -99,7 +99,6 @@ public class MainActivity extends AppCompatActivity
                     Log.e("Job", "failed info");
                 }
             }
-
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
