@@ -117,7 +117,7 @@ public class Main2Activity extends AppCompatActivity {
                             Switch swit = findViewById(R.id.save_enerdie_switch);
                             SharedPreferences preferences = getSharedPreferences("refresh", 0);
                             SharedPreferences.Editor edit = preferences.edit();
-                            edit.putBoolean("save_engergie", swit.isChecked());
+                            edit.putBoolean("save_energie", swit.isChecked());
                             if (swit.isChecked()) {
                                 Snackbar.make(flipper, "Energiesparmodus aktiviert!", Snackbar.LENGTH_LONG).show();
                                 stopService(new Intent(ctx, NotificationMgr.class));
