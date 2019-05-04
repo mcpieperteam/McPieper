@@ -34,7 +34,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import java.io.BufferedInputStream;
@@ -49,7 +48,7 @@ import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     public final static Integer JodScheduler_one = 1;
 
@@ -233,245 +232,13 @@ final Context ctx = this;
 
         ViewFlipper v = findViewById(R.id.disp);
         v.setDisplayedChild(0);
-        Switch switchh = findViewById(R.id.save_enerdie_switch);
-       /* switchh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onChange_switch(v);
-            }
-        });
-        findViewById(R.id.no_firebase_switch).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onChange_switch(v);
-            }
-        });
-*/
-    }
-
-    @Override
-    public void onClick(final View v) {
-      /*  if (v.getId() == R.id.change_pwd_btn) {
-            final EditText old_pwd_in = (EditText) findViewById(R.id.old_pwd);
-            final EditText new_pwd_in = (EditText) findViewById(R.id.new_pwd);
-            final EditText new_pwd_conf_in = (EditText) findViewById(R.id.new_pwd_conf);
-            final SharedPreferences sharedPreferences = getSharedPreferences("login", 0);
-            final String new_pwd = new_pwd_in.getText().toString();
-            String new_pwd_conf = new_pwd_conf_in.getText().toString();
-            if (old_pwd_in.getText().toString().matches(sharedPreferences.getString("pwd", "")) && new_pwd.matches(new_pwd_conf_in.getText().toString())) {
-                final String usr = sharedPreferences.getString("usr", "");
-                final String pwd = sharedPreferences.getString("pwd", "");
-                (new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        try {
-                            URL url = new URL("http://jusax.dnshome.de/s/" + "sani.php?d=" + new_pwd + "&act=cp&un=" + usr + "&key=" + pwd);
-                            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                            try {
-                                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                                BufferedReader r = new BufferedReader(new InputStreamReader(in));
-                                StringBuilder total = new StringBuilder();
-                                String line;
-                                while ((line = r.readLine()) != null) {
-                                    total.append(line);
-                                }
-                                // 972 s, 971 hgk,973 e,974 zuspaet
-                                String result = total.toString();
-                                if (result.contains("941")) {
-                                    String[] answrs = {"Passwort geändert",
-                                            "Dein neues Passwort ist: ******", "Dein Neues Kennwort ist ********"};
-
-                                    Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
-                                            .setAction("Action", null).show();
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("pwd", new_pwd);
-                                    editor.commit();
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            old_pwd_in.setText("");
-                                            new_pwd_in.setText("");
-                                            new_pwd_conf_in.setText("");
-                                        }
-                                    });
-                                } else if (result.contains("942") || result.contains("943")) {
-
-
-                                    Snackbar.make(v, "Das Kennwort darf keine Sonderzeichen enthalten!!!", Snackbar.LENGTH_LONG)
-                                            .setAction("Click me", new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    String[] answrs = getResources().getStringArray(R.array.snackbar_click_joke);
-                                                    Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG);
-                                                }
-                                            }).show();
-                                }else {
-                                    String[] answrs = {"Ein Problem trat auf beim ändern deines Kennworts",
-                                            "Es gab Probleme beim ändern"};
-
-                                    Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
-                                            .setAction("Click me", new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    String[] answrs = getResources().getStringArray(R.array.snackbar_click_joke);
-                                                    Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG);
-
-                                                }
-                                            }).show();
-
-                                }
-                            } finally {
-                                urlConnection.disconnect();
-                            }
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                })).start();
-            } else {
-                Snackbar.make(v, "Ein Fehler ist aufgetreten", Snackbar.LENGTH_LONG).show();
-            }
-        }
-        if(v.getId() == R.id.abmelden){
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        }
-    }
-
-    public void onChange_switch(View v) {
-        if (v.getId() == R.id.save_enerdie_switch) {
-
-        }
-       */
-    }
-    @Override
-    protected void onResume() {
-
-        super.onResume();
-        SharedPreferences sharedPreferences = getSharedPreferences("login", 0);
-        final String usr = sharedPreferences.getString("usr", "");
-        final String pwd = sharedPreferences.getString("pwd", "");
-        (new Thread(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void run() {
-
-
-                try {
-                    URL url = new URL("http://jusax.dnshome.de/s/" + "sani.php?d=&act=a&un=" + usr + "&key=" + pwd);
-                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                    try {
-                        InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                        BufferedReader r = new BufferedReader(new InputStreamReader(in));
-                        StringBuilder total = new StringBuilder();
-                        String line;
-                        while ((line = r.readLine()) != null) {
-                            total.append(line);
-                        }
-                        if (!total.toString().equals("903")) {
-                            final String[] result = total.toString().split(";");
-                            if (result[1].contains("m")) {
-                                result[1] = "Dienst haben morgen : \n";
-                            } else {
-                                result[1] = "Dienst haben heute : \n";
-                            }
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    String group = "";
-                                    if (result.length != 3) {
-                                        group = "Wochenende";
-                                    } else {
-                                        group = result[2];
-                                    }
-                                    TextView info_home = findViewById(R.id.info_home);
-                                    info_home.setText("Woche : " + result[0] + "\n" + result[1] + group);
-                                }
-                            });
-                        } else {
-                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                        }
-                    } finally {
-                        urlConnection.disconnect();
-
-                    }
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-
-        })).start();
-
-        final String token = sharedPreferences.getString("token", "");
-        final String old = sharedPreferences.getString("token-old", "");
-        if (!token.equals("")) {
-            (new Thread(new Runnable() {
-                @RequiresApi(api = Build.VERSION_CODES.O)
-                @Override
-                public void run() {
-
-
-                    try {
-                        URL url = new URL("http://jusax.dnshome.de/s/" + "sani.php?d=" + token + ";" + old + "&act=token&un=" + usr + "&key=" + pwd);
-                        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                        try {
-                            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                            BufferedReader r = new BufferedReader(new InputStreamReader(in));
-                            StringBuilder total = new StringBuilder();
-                            String line;
-                            while ((line = r.readLine()) != null) {
-                                total.append(line);
-                            }
-
-                        } finally {
-                            urlConnection.disconnect();
-
-                        }
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-
-            })).start();
-        } else {
-            new AlertDialog.Builder(this)
-                    .setTitle("Firebase ist nicht verfügbar!!!")
-                    .setMessage("Stelle sicher, dass du eine Internetverbindung hast und starte die App neu. Wenn du diese Meldung wieder siehst, dann installiere die App neu.")
-                    .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    }).show();
-        }
-    }
-
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        return super.onTouchEvent(event);
 
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+
+
+
+
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -545,20 +312,6 @@ final Context ctx = this;
 
         } else if (id == R.id.calender) {
 
-        } else if (id == R.id.settings) {
-            v.setDisplayedChild(1);
-
-            final SharedPreferences preferences = getSharedPreferences("refresh", 0);
-            boolean save_energie = preferences.getBoolean("save_engergie", false);
-            boolean nofire = preferences.getBoolean("bgrserviece", false);
-            Switch swit = findViewById(R.id.save_enerdie_switch);
-            swit.setChecked(save_energie);
-            if(nofire){
-                swit.setVisibility(View.VISIBLE);
-            }
-            swit = findViewById(R.id.no_firebase_switch);
-            swit.setChecked(nofire);
-
         } else if (id == R.id.playstore) {
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW,
@@ -567,18 +320,6 @@ final Context ctx = this;
                 startActivity(new Intent(Intent.ACTION_VIEW,
                         Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
             }
-        } else if (id == R.id.website) {
-            String url = "http://jusax.dnshome.de/s/";
-
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
-        } else if (id == R.id.becomebeta) {
-            String url = "https://play.google.com/apps/testing/com.mcpieperteam.mcpieper";
-
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

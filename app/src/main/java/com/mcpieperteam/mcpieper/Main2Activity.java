@@ -27,10 +27,10 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import java.io.BufferedInputStream;
@@ -41,6 +41,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Random;
 
 import static com.mcpieperteam.mcpieper.MainActivity.JodScheduler_one;
 
@@ -127,11 +128,138 @@ public class Main2Activity extends AppCompatActivity {
                     });
                     //apply switch states on load
                     SharedPreferences preferences = getSharedPreferences("refresh", 0);
-                    noFB.setChecked(preferences.getBoolean("bgservice",false));
-                    if (noFB.isChecked()){
+                    noFB.setChecked(preferences.getBoolean("bgservice", false));
+                    if (noFB.isChecked()) {
                         power_saving_mode_swtch.setVisibility(View.VISIBLE);
                     }
-                    power_saving_mode_swtch.setChecked(preferences.getBoolean("save_energie",false));
+                    power_saving_mode_swtch.setChecked(preferences.getBoolean("save_energie", false));
+                    //Change Password
+                    Button request_pw_change = (Button) flipper.findViewById(R.id.changepw);
+                    final Dialog pw_change_dialog = new Dialog(ctx, android.R.style.Theme_Light_NoTitleBar_Fullscreen);
+                    pw_change_dialog.setContentView(R.layout.popup_changepwd);
+                    //initialise dialog interface
+                    Button submit_pwd = (Button) pw_change_dialog.findViewById(R.id.submit_pw_change);
+                    submit_pwd.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
+                            final EditText old_pwd_in = (EditText) pw_change_dialog.findViewById(R.id.inp_old_pwd);
+                            final EditText new_pwd_in = (EditText) pw_change_dialog.findViewById(R.id.inp_new_pwd);
+                            final EditText new_pwd_conf_in = (EditText) pw_change_dialog.findViewById(R.id.inp_new_pwd_rep);
+                            final SharedPreferences sharedPreferences = getSharedPreferences("login", 0);
+                            final String new_pwd = new_pwd_in.getText().toString();
+                            String new_pwd_conf = new_pwd_conf_in.getText().toString();
+                            if (old_pwd_in.getText().toString().matches(sharedPreferences.getString("pwd", "")) && new_pwd.matches(new_pwd_conf_in.getText().toString())) {
+                                final String usr = sharedPreferences.getString("usr", "");
+                                final String pwd = sharedPreferences.getString("pwd", "");
+                                (new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        try {
+                                            URL url = new URL("http://jusax.dnshome.de/s/" + "sani.php?d=" + new_pwd + "&act=cp&un=" + usr + "&key=" + pwd);
+                                            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                                            try {
+                                                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                                                BufferedReader r = new BufferedReader(new InputStreamReader(in));
+                                                StringBuilder total = new StringBuilder();
+                                                String line;
+                                                while ((line = r.readLine()) != null) {
+                                                    total.append(line);
+                                                }
+                                                // 972 s, 971 hgk,973 e,974 zuspaet
+                                                String result = total.toString();
+                                                if (result.contains("941")) {
+                                                    String[] answrs = {"Passwort geändert",
+                                                            "Dein neues Passwort ist: ******", "Dein Neues Kennwort ist ********"};
+
+                                                    Snackbar.make(flipper, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
+                                                            .setAction("Action", null).show();
+                                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                    editor.putString("pwd", new_pwd);
+                                                    editor.commit();
+                                                    runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            old_pwd_in.setText("");
+                                                            new_pwd_in.setText("");
+                                                            new_pwd_conf_in.setText("");
+                                                            pw_change_dialog.dismiss();
+                                                        }
+                                                    });
+                                                } else if (result.contains("942") || result.contains("943")) {
+
+
+                                                    Snackbar.make(v, "Das Kennwort darf keine Sonderzeichen enthalten!!!", Snackbar.LENGTH_LONG)
+                                                            .setAction("Click me", new View.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(View v) {
+                                                                    String[] answrs = getResources().getStringArray(R.array.snackbar_click_joke);
+                                                                    Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG);
+                                                                }
+                                                            }).show();
+                                                }else {
+                                                    String[] answrs = {"Ein Problem trat auf beim ändern deines Kennworts",
+                                                            "Es gab Probleme beim ändern"};
+
+                                                    Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
+                                                            .setAction("Click me", new View.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(View v) {
+                                                                    String[] answrs = getResources().getStringArray(R.array.snackbar_click_joke);
+                                                                    Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG);
+
+                                                                }
+                                                            }).show();
+
+                                                }
+                                            } finally {
+                                                urlConnection.disconnect();
+                                            }
+                                        } catch (MalformedURLException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                })).start();
+                            } else {
+                                Snackbar.make(v, "Ein Fehler ist aufgetreten", Snackbar.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                    //show dialog on button press
+                    request_pw_change.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            pw_change_dialog.show();
+                        }
+                    });
+                    //open website toggle
+                    Button open_website = (Button) flipper.findViewById(R.id.openinbrowser);
+                    open_website.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String url = "http://jusax.dnshome.de/s/";
+
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(url));
+                            startActivity(i);
+                        }
+                    });
+                    //open in playstore
+                    Button open_playstore = (Button) flipper.findViewById(R.id.openinplay);
+                    open_playstore.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse("market://details?id=" + getPackageName())));
+                            } catch (ActivityNotFoundException e) {
+                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+                            }
+                        }
+                    });
                     return true;
                 case R.id.navigation_notifications:
                     flipper.setDisplayedChild(0);
