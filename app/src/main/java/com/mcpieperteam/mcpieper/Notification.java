@@ -1,17 +1,12 @@
 package com.mcpieperteam.mcpieper;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -36,8 +31,8 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notification);
 
-        Button cncl = findViewById(R.id.cancel_serv);
-        Button keep = findViewById(R.id.keep_serv);
+        Button cncl = findViewById(R.id.cntnt_deny);
+        Button keep = findViewById(R.id.cntnt_accept);
         cncl.setOnClickListener(this);
         keep.setOnClickListener(this);
 
@@ -47,7 +42,7 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.keep_serv:
+            case R.id.cntnt_accept:
                 String[] answrs = getResources().getStringArray(R.array.accept);
                 SharedPreferences preferences = getSharedPreferences("refresh", 0);
                 SharedPreferences.Editor edit = preferences.edit();
@@ -70,7 +65,7 @@ public class Notification extends AppCompatActivity implements View.OnClickListe
                 }, 3500);
 
                 break;
-            case R.id.cancel_serv:
+            case R.id.cntnt_deny:
                 final View view = v;
                 final Context ctx = this;
                 final SharedPreferences sharedPreferences = getSharedPreferences("login", 0);
