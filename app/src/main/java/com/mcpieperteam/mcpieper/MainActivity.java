@@ -62,46 +62,6 @@ final Context ctx = this;
         setContentView(R.layout.activity_main);
         startActivity(new Intent(this,Main2Activity.class));
 
-        SharedPreferences sp = getSharedPreferences("login", 0);
-        if (sp.getBoolean("authed", false) == false) {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        } else {
-
-            SharedPreferences preferences = getSharedPreferences("refresh", 0);
-            boolean brdserviece = preferences.getBoolean("bgrserviece", false);
-            if(brdserviece){
-                startService(new Intent(this, NotificationMgr.class));
-            }
-
-            Intent intent_w_one = new Intent(this, Widget_one_Provider.class);
-            intent_w_one.setAction("android.appwidget.action.APPWIDGET_UPDATE");
-            int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), Widget_one_Provider.class));
-            intent_w_one.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-            sendBroadcast(intent_w_one);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ComponentName componentName = new ComponentName(this, BackgroundJobService.class);
-                JobInfo info = new JobInfo.Builder(JodScheduler_one, componentName)
-                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                        .setPersisted(true)
-                        .setPeriodic(15 * 60 * 1000)
-                        .build();
-                JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-                if (info != null) {
-                    scheduler.cancel(JodScheduler_one);
-                    int resulteCode = scheduler.schedule(info);
-                    if (resulteCode == JobScheduler.RESULT_SUCCESS) {
-                        Log.d("Job", "started");
-                    } else {
-                        Log.e("Job", "failed");
-                    }
-                } else {
-                    Log.e("Job", "failed info");
-                }
-            }
-
-        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
