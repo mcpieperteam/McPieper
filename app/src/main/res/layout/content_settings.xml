@@ -8,14 +8,14 @@
 
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
-    tools:context="com.mcpieperteam.mcpieper.MainActivity">
+    tools:context="com.mcpieperteam.mcpieper.Main2Activity">
 
     <LinearLayout
         android:id="@+id/bg_settings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:foregroundGravity="center_vertical|center_horizontal"
-        android:gravity="bottom|center"
+        android:gravity="center|top"
         android:orientation="vertical">
 
         <Switch
@@ -38,55 +38,29 @@
             android:visibility="invisible" />
 
         <Button
-            android:id="@+id/abmelden"
-            android:layout_width="match_parent"
+            android:id="@+id/changepw"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#eee"
+            android:background="@drawable/common_google_signin_btn_text_light_normal_background"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:text="Passwort ändern"
+            android:textAllCaps="false"
+            android:textColor="@color/red" />
+        <Button
+            android:id="@+id/request_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/common_google_signin_btn_text_light_normal_background"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
             android:text="Abmelden"
             android:textAllCaps="false"
             android:textColor="@color/red" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:gravity="bottom|center"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/old_pwd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Altes Passwort"
-                android:inputType="textPassword"
-                android:textColorHint="@color/red" />
-
-            <EditText
-                android:id="@+id/new_pwd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Neues Passwort"
-                android:inputType="textPassword"
-                android:textColorHint="@color/red" />
-
-            <EditText
-                android:id="@+id/new_pwd_conf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Neues Passwort bestätigen"
-                android:inputType="textPassword"
-                android:textColorHint="@color/red" />
-
-            <ImageView
-                android:id="@+id/change_pwd_btn"
-                android:layout_width="184dp"
-                android:layout_height="111dp"
-                android:src="@drawable/ic_check_box_green_24dp" />
-
-        </LinearLayout>
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

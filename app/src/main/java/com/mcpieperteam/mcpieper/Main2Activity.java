@@ -1,0 +1,351 @@
+package com.mcpieperteam.mcpieper;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.appwidget.AppWidgetManager;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ViewFlipper;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import static com.mcpieperteam.mcpieper.MainActivity.JodScheduler_one;
+
+public class Main2Activity extends AppCompatActivity {
+    public ViewFlipper flipper;
+    final public Context ctx = this;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    flipper.setDisplayedChild(1);
+                    return true;
+                case R.id.navigation_settings:
+                    flipper.setDisplayedChild(2);
+                    final Button logout_btn = (Button) flipper.findViewById(R.id.request_logout);
+                    final Dialog logout_confirm_dialog = new Dialog(ctx, android.R.style.Theme_Light_NoTitleBar_Fullscreen);
+                    logout_confirm_dialog.setContentView(R.layout.logout_confirm_popup);
+                    //initialise popup buttons
+                    Button cancel_logout = (Button) logout_confirm_dialog.findViewById(R.id.cancel_logout);
+                    Button confirm_logout = (Button) logout_confirm_dialog.findViewById(R.id.confirm_logout);
+                    //add click listener
+                    cancel_logout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            logout_confirm_dialog.dismiss();
+                        }
+                    });
+                    confirm_logout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //Logout
+                        }
+                    });
+                    //open confirmation on button press
+                    logout_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            logout_confirm_dialog.show();
+                        }
+                    });
+                    //RequestTechniqueButtons
+                    Switch noFB = (Switch) flipper.findViewById(R.id.no_firebase_switch);
+                    Switch power_saving_mode_swtch = (Switch) flipper.findViewById(R.id.save_enerdie_switch);
+                    noFB.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Switch swit = flipper.findViewById(R.id.no_firebase_switch);
+                            SharedPreferences preferences = getSharedPreferences("refresh", 0);
+                            SharedPreferences.Editor edit = preferences.edit();
+                            edit.putBoolean("bgservice", swit.isChecked());
+                            Switch swit_o = findViewById(R.id.save_enerdie_switch);
+                            if (swit.isChecked()) {
+
+                                Snackbar.make(flipper, "Hintergrundservice aktiviert!", Snackbar.LENGTH_LONG).show();
+                                swit_o.setVisibility(View.VISIBLE);
+                                startService(new Intent(ctx, NotificationMgr.class));
+                            } else {
+                                Snackbar.make(flipper, "Hintergrundservice deaktiviert!", Snackbar.LENGTH_LONG).show();
+                                swit_o.setVisibility(View.INVISIBLE);
+                                stopService(new Intent(ctx, NotificationMgr.class));
+                            }
+                            edit.commit();
+                        }
+                    });
+                    power_saving_mode_swtch.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Switch swit = findViewById(R.id.save_enerdie_switch);
+                            SharedPreferences preferences = getSharedPreferences("refresh", 0);
+                            SharedPreferences.Editor edit = preferences.edit();
+                            edit.putBoolean("save_engergie", swit.isChecked());
+                            if (swit.isChecked()) {
+                                Snackbar.make(flipper, "Energiesparmodus aktiviert!", Snackbar.LENGTH_LONG).show();
+                                stopService(new Intent(ctx, NotificationMgr.class));
+                            } else {
+                                Snackbar.make(flipper, "Energiesparmodus deaktiviert!", Snackbar.LENGTH_LONG).show();
+                                startService(new Intent(ctx, NotificationMgr.class));
+                            }
+                            edit.apply();
+                        }
+                    });
+                    //apply switch states on load
+                    SharedPreferences preferences = getSharedPreferences("refresh", 0);
+                    noFB.setChecked(preferences.getBoolean("bgservice",false));
+                    if (noFB.isChecked()){
+                        power_saving_mode_swtch.setVisibility(View.VISIBLE);
+                    }
+                    power_saving_mode_swtch.setChecked(preferences.getBoolean("save_energie",false));
+                    return true;
+                case R.id.navigation_notifications:
+                    flipper.setDisplayedChild(0);
+                    return true;
+            }
+            return false;
+        }
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main2);
+
+        flipper = (ViewFlipper) findViewById(R.id.view_flipper);
+        flipper.setDisplayedChild(1);
+
+
+        final BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navView.setSelectedItemId(R.id.navigation_home);
+        flipper.setOnTouchListener(new OnSwipeTouchListener(Main2Activity.this) {
+            @Override
+            public void onSwipeRight() {
+                int p = navView.getSelectedItemId();
+                switch (p) {
+                    case R.id.navigation_home:
+                        navView.setSelectedItemId(R.id.navigation_notifications);
+                        break;
+                    case R.id.navigation_notifications:
+                        //Do nothing
+                        break;
+                    case R.id.navigation_settings:
+                        navView.setSelectedItemId(R.id.navigation_home);
+                        break;
+                }
+            }
+
+            @Override
+            public void onSwipeLeft() {
+                int p = navView.getSelectedItemId();
+                switch (p) {
+                    case R.id.navigation_home:
+                        navView.setSelectedItemId(R.id.navigation_settings);
+                        break;
+                    case R.id.navigation_notifications:
+                        navView.setSelectedItemId(R.id.navigation_home);
+                        break;
+                    case R.id.navigation_settings:
+                        //do nothing
+                        break;
+                }
+            }
+        });
+
+
+        SharedPreferences sp = getSharedPreferences("login", 0);
+        if (sp.getBoolean("authed", false) == false) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        } else {
+
+            SharedPreferences preferences = getSharedPreferences("refresh", 0);
+            boolean brdserviece = preferences.getBoolean("bgrserviece", false);
+            if (brdserviece) {
+                startService(new Intent(this, NotificationMgr.class));
+            }
+
+            Intent intent_w_one = new Intent(this, Widget_one_Provider.class);
+            intent_w_one.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+            int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), Widget_one_Provider.class));
+            intent_w_one.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+            sendBroadcast(intent_w_one);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ComponentName componentName = new ComponentName(this, BackgroundJobService.class);
+                JobInfo info = new JobInfo.Builder(JodScheduler_one, componentName)
+                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                        .setPersisted(true)
+                        .setPeriodic(15 * 60 * 1000)
+                        .build();
+                JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+                if (info != null) {
+                    scheduler.cancel(JodScheduler_one);
+                    int resulteCode = scheduler.schedule(info);
+                    if (resulteCode == JobScheduler.RESULT_SUCCESS) {
+                        Log.d("Job", "started");
+                    } else {
+                        Log.e("Job", "failed");
+                    }
+                } else {
+                    Log.e("Job", "failed info");
+                }
+            }
+
+        }
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        SharedPreferences sharedPreferences = getSharedPreferences("login", 0);
+        final String usr = sharedPreferences.getString("usr", "");
+        final String pwd = sharedPreferences.getString("pwd", "");
+        (new Thread(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void run() {
+
+
+                try {
+                    URL url = new URL("http://jusax.dnshome.de/s/" + "sani.php?d=&act=a&un=" + usr + "&key=" + pwd);
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    try {
+                        InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                        BufferedReader r = new BufferedReader(new InputStreamReader(in));
+                        StringBuilder total = new StringBuilder();
+                        String line;
+                        while ((line = r.readLine()) != null) {
+                            total.append(line);
+                        }
+                        if (!total.toString().equals("903")) {
+                            final String[] result = total.toString().split(";");
+                            if (result[1].contains("m")) {
+                                result[1] = "Dienst haben morgen : \n";
+                            } else {
+                                result[1] = "Dienst haben heute : \n";
+                            }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String group = "";
+                                    if (result.length != 3) {
+                                        group = "Wochenende";
+                                    } else {
+                                        group = result[2];
+                                    }
+                                    TextView info_home = flipper.findViewById(R.id.info_home);
+                                    info_home.setText("Woche : " + result[0] + "\n" + result[1] + group);
+                                }
+                            });
+                        } else {
+                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                        }
+                    } finally {
+                        urlConnection.disconnect();
+
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+        })).start();
+
+        final String token = sharedPreferences.getString("token", "");
+        final String old = sharedPreferences.getString("token-old", "");
+        if (!token.equals("")) {
+            (new Thread(new Runnable() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void run() {
+
+
+                    try {
+                        URL url = new URL("http://jusax.dnshome.de/s/" + "sani.php?d=" + token + ";" + old + "&act=token&un=" + usr + "&key=" + pwd);
+                        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                        try {
+                            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                            BufferedReader r = new BufferedReader(new InputStreamReader(in));
+                            StringBuilder total = new StringBuilder();
+                            String line;
+                            while ((line = r.readLine()) != null) {
+                                total.append(line);
+                            }
+
+                        } finally {
+                            urlConnection.disconnect();
+
+                        }
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            })).start();
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Firebase ist nicht verfügbar!!!")
+                    .setMessage("Stelle sicher, dass du eine Internetverbindung hast und starte die App neu. Wenn du diese Meldung wieder siehst, dann installiere die App neu.")
+                    .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).show();
+        }
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        return super.onTouchEvent(event);
+
+    }
+
+
+}
+

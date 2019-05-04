@@ -46,9 +46,13 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/spinner_background"
-            android:padding="35dp"
-            android:text="Anmelden" />
+            android:background="@drawable/common_google_signin_btn_text_light_normal_background"
+            android:paddingLeft="50dp"
+            android:paddingTop="10dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="10dp"
+            android:text="Anmelden"
+            android:textColor="#D52121" />
 
     </LinearLayout>
 
