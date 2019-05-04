@@ -58,9 +58,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+final Context ctx = this;
 
         setContentView(R.layout.activity_main);
-        final Context ctx = this;
+        startActivity(new Intent(this,Main2Activity.class));
+
         SharedPreferences sp = getSharedPreferences("login", 0);
         if (sp.getBoolean("authed", false) == false) {
             startActivity(new Intent(this, LoginActivity.class));
@@ -232,7 +234,7 @@ public class MainActivity extends AppCompatActivity
         ViewFlipper v = findViewById(R.id.disp);
         v.setDisplayedChild(0);
         Switch switchh = findViewById(R.id.save_enerdie_switch);
-        switchh.setOnClickListener(new View.OnClickListener() {
+       /* switchh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onChange_switch(v);
@@ -244,12 +246,12 @@ public class MainActivity extends AppCompatActivity
                 onChange_switch(v);
             }
         });
-
+*/
     }
 
     @Override
     public void onClick(final View v) {
-        if (v.getId() == R.id.change_pwd_btn) {
+      /*  if (v.getId() == R.id.change_pwd_btn) {
             final EditText old_pwd_in = (EditText) findViewById(R.id.old_pwd);
             final EditText new_pwd_in = (EditText) findViewById(R.id.new_pwd);
             final EditText new_pwd_conf_in = (EditText) findViewById(R.id.new_pwd_conf);
@@ -341,36 +343,9 @@ public class MainActivity extends AppCompatActivity
 
     public void onChange_switch(View v) {
         if (v.getId() == R.id.save_enerdie_switch) {
-            Switch swit = findViewById(R.id.save_enerdie_switch);
-            SharedPreferences preferences = getSharedPreferences("refresh", 0);
-            SharedPreferences.Editor edit = preferences.edit();
-            edit.putBoolean("save_engergie", swit.isChecked());
-            if (swit.isChecked()) {
-                Toast.makeText(this, "Energiesparmodus aktiviert!!!", Toast.LENGTH_LONG).show();
-                stopService(new Intent(this, NotificationMgr.class));
-            } else {
-                Toast.makeText(this, "Energiesparmodus deaktiviert!!!", Toast.LENGTH_LONG).show();
-                startService(new Intent(this, NotificationMgr.class));
-            }
-            edit.commit();
+
         }
-        if(v.getId()==R.id.no_firebase_switch){
-            Switch swit = findViewById(R.id.no_firebase_switch);
-            SharedPreferences preferences = getSharedPreferences("refresh", 0);
-            SharedPreferences.Editor edit = preferences.edit();
-            edit.putBoolean("bgrserviece", swit.isChecked());
-            Switch swit_o = findViewById(R.id.save_enerdie_switch);
-            if (swit.isChecked()) {
-                Toast.makeText(this, "Hintergrundservice aktiviert!!!", Toast.LENGTH_LONG).show();
-                swit_o.setVisibility(View.VISIBLE);
-                startService(new Intent(this, NotificationMgr.class));
-            } else {
-                Toast.makeText(this, "Hintergrundservice deaktiviert!!!", Toast.LENGTH_LONG).show();
-                swit_o.setVisibility(View.INVISIBLE);
-                stopService(new Intent(this, NotificationMgr.class));
-            }
-            edit.commit();
-        }
+       */
     }
     @Override
     protected void onResume() {
@@ -583,10 +558,7 @@ public class MainActivity extends AppCompatActivity
             }
             swit = findViewById(R.id.no_firebase_switch);
             swit.setChecked(nofire);
-            ImageView imageButton = (ImageView) findViewById(R.id.change_pwd_btn);
-            imageButton.setOnClickListener(this);
-            Button button = (Button) findViewById(R.id.abmelden);
-            button.setOnClickListener(this);
+
         } else if (id == R.id.playstore) {
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW,

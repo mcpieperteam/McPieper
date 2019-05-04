@@ -1,5 +1,6 @@
 package com.mcpieperteam.mcpieper;
 
+import android.app.Dialog;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -29,6 +30,24 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+
+
+            //FirstBoot:
+            final Dialog load = new Dialog(this, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
+            load.setContentView(R.layout.first_start_popup);
+            Button start_login = (Button) load.findViewById(R.id.start_login);
+            start_login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    load.dismiss();
+
+                }
+            });
+            load.show();
+
+
+
+
         final Button login_btn = findViewById(R.id.login);
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,50 +1,49 @@
 <resources>
     <string name="app_name">McPieper</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-    <string name="restart_app">Please restart McPieper</string>
-    <string name="main_website" translatable="false">http://jusax.dnshome.de/s/</string>
-    <string name="alert_title">Attention!</string>
-    <string name="alert_content">Do you really want to cancel?</string>
-    <string name="alert_yes">Yes</string>
-    <string name="alert_no">No... Stop</string>
+    <string name="navigation_drawer_open">Menü öffnen</string>
+    <string name="navigation_drawer_close">Menü schließen</string>
+    <string name="nav_header_desc">Navigationszeile</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="restart_app">Bitte starte McPieper neu</string>
+    <string name="main_website">http://jusax.dnshome.de/s/</string>
+    <string name="alert_title">Achtung</string>
+    <string name="alert_content">Wirklich abbrechen</string>
+    <string name="alert_yes">Ja</string>
+    <string name="alert_no">Nein</string>
     <string name="main_playstore" translatable="false">com.mcpieperteam.mcpieper</string>
     <!--<string name="main_playstore" translatable="false">market://details?id=com.cloudway.mcpieper</string>-->
     <string name="nav_home">Home</string>
     <string name="nav_cancel">Cancel</string>
     <string name="nav_settings">Settings</string>
-    <string name="nav_website">Open Official Website</string>
-    <string name="nav_calendar">Calendar</string>
-    <string name="nav_playstore">Show App in Playstore</string>
+    <string name="nav_website">Website öffnen</string>
+    <string name="nav_calendar">Kalender</string>
+    <string name="nav_playstore">App im Playstore anzeigen</string>
     <string-array name="deny">
-        <item>You\'re so lazy</item>
-        <item>This is the only time you deny!</item>
-        <item>I\'ve canceled muhahaha</item>
-        <item>Canceled Successfully</item>
+        <item>Dienst absage erfolgreich</item>
+        <item>Dein Dienst wurde erfolgreich abgesagt</item>
+
     </string-array>
     <string-array name="accept">
-        <item>You\'re so selfish...</item>
-        <item>You still have to work</item>
-        <item>Successfully canceled... Only joking</item>
+        <item>Du behälst deinen Dienst</item>
+        <item>Du hast Dienst</item>
     </string-array>
     <string-array name="liar">
-        <item>You\'re such a liar</item>
-        <item>Liar you\'re not supposed to get a \'Pieper\' tomorrow</item>
-        <item>No service</item>
-        <item>I\'m shure you know that there is no need to press this button</item>
+        <item>Du hast keinen Dienst</item>
+        <item>Du hast keinen Dienst</item>
+        <item>Du hast keinen Dienst</item>
+        <item>Du hast immernoch keinen Dienst</item>
     </string-array>
     <string-array name="error_while_canceling">
-        <item>There was an error while fetching the data</item>
-        <item>It seems like there was an error</item>
-        <item>ERROR: 404! (Not 404 but still an error)</item>
-        <item>Oh no someone stopped your connection to the server</item>
+        <item>Ein Fehler trat auf</item>
+        <item>Es gab ein Problem</item>
     </string-array>
     <string-array name="snackbar_click_joke">
-        <item>Clicking on me like an Idiot won\'t help</item>
-        <item>Please stop clicking me!</item>
-        <item>Is it so hard to just do nothing?</item>
-        <item>Just accept that I won\'t help you</item>
+        <item>Hier ist nichts los</item>
+        <item>Schönes Wetter heute</item>
+        <item>Wusstest du das es über ein Jahr gedaurt hat um McPieper zu erstellen</item>
+
+        <item>Hier ist nichts los</item>
     </string-array>
+    <string name="title_activity_main2">McPieper</string>
+    <string name="title_home">Home</string>
 </resources>

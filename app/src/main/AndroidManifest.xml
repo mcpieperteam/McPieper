@@ -8,17 +8,19 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:name="com.mcpieperteam.mcpieper.NotificationProvider"
+        android:name=".NotificationProvider"
         android:allowBackup="true"
         android:icon="@drawable/mcpieper_icon"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-
         <activity
-            android:name="com.mcpieperteam.mcpieper.MainActivity"
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"></activity>
+        <activity
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -28,32 +30,43 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mcpieperteam.mcpieper.LoginActivity"
+            android:name=".LoginActivity"
             android:label="Login" />
-        <activity android:name="com.mcpieperteam.mcpieper.Notification" />
+        <activity android:name=".Notification" />
 
-        <service android:enabled="true" android:name="com.mcpieperteam.mcpieper.NotificationMgr">
-            <!--<intent-filter>
+        <service
+            android:name=".NotificationMgr"
+            android:enabled="true">
+
+            <!--
+            <intent-filter>
                 <action android:name="mcpieperteamteam.NotificationMgr" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </service>
-        <receiver android:name="com.mcpieperteam.mcpieper.autostart" android:enabled="true" android:exported="false">
+
+        <receiver
+            android:name=".autostart"
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.mcpieperteam.mcpieper.Widget_one_Provider">
+        <receiver android:name=".Widget_one_Provider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_one_info" />
         </receiver>
-        <service android:name="com.mcpieperteam.mcpieper.BackgroundJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
 
+        <service
+            android:name=".BackgroundJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
         <service
             android:name=".McFirebaseInstanceServiece"
             android:exported="true">
