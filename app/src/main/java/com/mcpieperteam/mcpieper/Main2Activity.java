@@ -20,6 +20,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +29,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import java.io.BufferedInputStream;
@@ -351,7 +353,12 @@ public class Main2Activity extends AppCompatActivity {
             @Override
             public void onSwipeBottom() {
                 onResume();
-                Snackbar.make(flipper,"Aktualisieren.....",Snackbar.LENGTH_LONG).show();
+                Toast refresh = new Toast(ctx);
+                refresh.setGravity(Gravity.TOP,0,0);
+                refresh.setDuration(Toast.LENGTH_SHORT);
+                View toasted_layout = getLayoutInflater().inflate(R.layout.toast_refresh,null);
+                refresh.setView(toasted_layout);
+                refresh.show();
             }
         });
 
