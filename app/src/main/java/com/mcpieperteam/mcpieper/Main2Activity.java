@@ -351,7 +351,7 @@ public class Main2Activity extends AppCompatActivity {
             @Override
             public void onSwipeBottom() {
                 onResume();
-                Snackbar.make(flipper,"Aktualisiere",Snackbar.LENGTH_LONG).show();
+                Snackbar.make(flipper,"Aktualisieren.....",Snackbar.LENGTH_LONG).show();
             }
         });
 
