@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
@@ -50,6 +51,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.Random;
 
 import static com.mcpieperteam.mcpieper.MainActivity.JodScheduler_one;
@@ -65,24 +67,24 @@ public class Main2Activity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                   switch (flipper.getDisplayedChild()) {
-                       case 1:
-                           break;
-                       case 0:
-                           //notification (old tab)
-                           flipper.setInAnimation(AnimationUtils.loadAnimation(ctx,R.anim.in_from_right));
-                           flipper.setDisplayedChild(1);
-                           break;
-                       case 2:
-                           //settings (old tab)
-                           flipper.setInAnimation(AnimationUtils.loadAnimation(ctx,R.anim.in_from_left));
-                           flipper.setDisplayedChild(1);
-                           break;
-                   }
+                    switch (flipper.getDisplayedChild()) {
+                        case 1:
+                            break;
+                        case 0:
+                            //notification (old tab)
+                            flipper.setInAnimation(AnimationUtils.loadAnimation(ctx, R.anim.in_from_right));
+                            flipper.setDisplayedChild(1);
+                            break;
+                        case 2:
+                            //settings (old tab)
+                            flipper.setInAnimation(AnimationUtils.loadAnimation(ctx, R.anim.in_from_left));
+                            flipper.setDisplayedChild(1);
+                            break;
+                    }
 
                     return true;
                 case R.id.navigation_settings:
-                    flipper.setInAnimation(AnimationUtils.loadAnimation(ctx,R.anim.in_from_right));
+                    flipper.setInAnimation(AnimationUtils.loadAnimation(ctx, R.anim.in_from_right));
                     flipper.setDisplayedChild(2);
                     final Button logout_btn = (Button) flipper.findViewById(R.id.request_logout);
                     final Dialog logout_confirm_dialog = new Dialog(ctx, android.R.style.Theme_Light_NoTitleBar_Fullscreen);
@@ -289,12 +291,12 @@ public class Main2Activity extends AppCompatActivity {
                     Button change_theme_popup = (Button) flipper.findViewById(R.id.change_theme);
                     final Dialog theme_changer = new Dialog(ctx, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
                     theme_changer.setContentView(R.layout.popup_change_theme);
-                    final SharedPreferences sharedPreferences = getSharedPreferences("style",0);
+                    final SharedPreferences sharedPreferences = getSharedPreferences("style", 0);
                     final RadioGroup theme_selector = (RadioGroup) theme_changer.findViewById(R.id.theme_selctor);
                     change_theme_popup.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            theme_selector.check(sharedPreferences.getInt("theme",R.id.theme_default));
+                            theme_selector.check(sharedPreferences.getInt("theme", R.id.theme_default));
                             theme_changer.show();
                         }
                     });
@@ -304,15 +306,15 @@ public class Main2Activity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putInt("theme",theme_selector.getCheckedRadioButtonId());
+                            editor.putInt("theme", theme_selector.getCheckedRadioButtonId());
                             editor.commit();
-                            startActivity(new Intent(ctx,Main2Activity.class));
+                            startActivity(new Intent(ctx, Main2Activity.class));
                             finish();
                         }
                     });
                     return true;
                 case R.id.navigation_notifications:
-                    flipper.setInAnimation(AnimationUtils.loadAnimation(ctx,R.anim.in_from_left));
+                    flipper.setInAnimation(AnimationUtils.loadAnimation(ctx, R.anim.in_from_left));
                     SharedPreferences usr_data = getSharedPreferences("login", 0);
                     final String usr = usr_data.getString("usr", "");
                     final String pwd = usr_data.getString("pwd", "");
@@ -347,12 +349,12 @@ public class Main2Activity extends AppCompatActivity {
                                         });
                                     } else if (result.contains("952")) {
                                         //stop user
-                                        Snackbar.make(flipper,"Du hast keinen Dienst den du absagen kannst",Snackbar.LENGTH_LONG).show();
+                                        Snackbar.make(flipper, "Du hast keinen Dienst den du absagen kannst", Snackbar.LENGTH_LONG).show();
                                         navView.setSelectedItemId(R.id.navigation_home);
 
                                     } else {
                                         //stop user
-                                        Snackbar.make(flipper,"Ein Fehler trat auf bitte Versuche es später erneut!",Snackbar.LENGTH_LONG).show();
+                                        Snackbar.make(flipper, "Ein Fehler trat auf bitte Versuche es später erneut!", Snackbar.LENGTH_LONG).show();
                                         navView.setSelectedItemId(R.id.navigation_home);
                                     }
 
@@ -369,6 +371,128 @@ public class Main2Activity extends AppCompatActivity {
 
 
                     })).start();
+                    //initialise layout
+                    Button cncl = findViewById(R.id.cntnt_deny);
+                    Button keep = findViewById(R.id.cntnt_accept);
+                    keep.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String[] answrs = getResources().getStringArray(R.array.accept);
+                            SharedPreferences preferences = getSharedPreferences("refresh", 0);
+                            SharedPreferences.Editor edit = preferences.edit();
+                            Date d = new Date();
+                            edit.putInt("last_h", d.getHours());
+                            edit.putInt("last_d", d.getDay());
+                            edit.putInt("last_year", d.getYear());
+                            edit.putInt("last_month", d.getMonth());
+                            edit.commit();
+                            Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }
+                    });
+                    cncl.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            (new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    try {
+                                        URL url = new URL("http://jusax.dnshome.de/s/" + "sani.php?d=&act=e&un=" + usr + "&key=" + pwd);
+                                        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                                        try {
+                                            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                                            BufferedReader r = new BufferedReader(new InputStreamReader(in));
+                                            StringBuilder total = new StringBuilder();
+                                            String line;
+                                            while ((line = r.readLine()) != null) {
+                                                total.append(line);
+                                            }
+                                            // 972 s, 971 hgk,973 e,974 zuspaet
+                                            String result = total.toString();
+                                            if (result.contains("972")) {
+                                                String[] answrs = getResources().getStringArray(R.array.deny);
+
+                                                Snackbar.make(flipper, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
+                                                        .setAction("Action", null).show();
+                                                SharedPreferences preferences = getSharedPreferences("refresh", 0);
+                                                SharedPreferences.Editor edit = preferences.edit();
+                                                Date d = new Date();
+                                                edit.putInt("last_h", d.getHours());
+                                                edit.putInt("last_d", d.getDay());
+                                                edit.putInt("last_year", d.getYear());
+                                                edit.putInt("last_month", d.getMonth());
+                                                edit.commit();
+
+                                            } else if (result.contains("971")) {
+                                                String[] answrs = getResources().getStringArray(R.array.liar);
+
+                                                Snackbar.make(flipper, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
+                                                        .setAction("Click me", new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View v) {
+                                                                String[] answrs = getResources().getStringArray(R.array.snackbar_click_joke);
+                                                                Snackbar.make(flipper, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG);
+
+                                                            }
+                                                        }).show();
+
+
+
+                                            } else if (result.contains("973")) {
+                                                String[] answrs = getResources().getStringArray(R.array.error_while_canceling);
+
+                                                Snackbar.make(flipper, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
+                                                        .setAction("Action", null).show();
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Handler handler = new Handler();
+                                                        handler.postDelayed(new Runnable() {
+
+                                                            @Override
+                                                            public void run() {
+                                                                //Your task it will execute at 1 time only...
+                                                                finish();
+                                                            }
+                                                        }, 2000);
+                                                    }
+                                                });
+                                            } else if (result.contains("974")) {
+                                                String[] answrs = {"Du hast immernoch Dienst",
+                                                        "Du hast zu spät abgesagt", "Zu spät... Du hast immernoch Dienst",
+                                                        "Du musst zwischen 16 Uhr und 7 Uhr absagen!!!"};
+
+                                                Snackbar.make(flipper, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
+                                                        .setAction("Action", new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View v) {
+                                                                String[] answrs = getResources().getStringArray(R.array.snackbar_click_joke);
+                                                                Snackbar.make(flipper, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG);
+
+                                                            }
+                                                        }).show();
+
+                                            }
+                                        } finally {
+                                            urlConnection.disconnect();
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    navView.setSelectedItemId(R.id.navigation_home);
+                                                }
+                                            });
+
+                                        }
+                                    } catch (MalformedURLException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            })).start();
+                        }
+                    });
                     return true;
             }
             return false;
@@ -379,7 +503,7 @@ public class Main2Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences sharedPreferences = getSharedPreferences("style", 0);
-        switch (sharedPreferences.getInt("theme",R.id.theme_default)) {
+        switch (sharedPreferences.getInt("theme", R.id.theme_default)) {
             case R.id.theme_dark:
                 setTheme(R.style.AppTheme_Dark);
                 break;
@@ -391,14 +515,12 @@ public class Main2Activity extends AppCompatActivity {
         }
         ActionBar actionBar = getSupportActionBar();
         SharedPreferences sp = ctx.getSharedPreferences("login", 0);
-        actionBar.setTitle("McPieper: "+sp.getString("usr", ""));
+        actionBar.setTitle("McPieper: " + sp.getString("usr", ""));
         setContentView(R.layout.activity_main2);
 
 
         flipper = (ViewFlipper) findViewById(R.id.view_flipper);
         flipper.setDisplayedChild(1);
-
-
 
 
         navView = findViewById(R.id.nav_view);
@@ -407,7 +529,7 @@ public class Main2Activity extends AppCompatActivity {
         flipper.setOnTouchListener(new OnSwipeTouchListener(Main2Activity.this) {
             @Override
             public void onSwipeRight() {
-                flipper.setInAnimation(AnimationUtils.loadAnimation(ctx,R.anim.in_from_left));
+                flipper.setInAnimation(AnimationUtils.loadAnimation(ctx, R.anim.in_from_left));
                 int p = navView.getSelectedItemId();
                 switch (p) {
                     case R.id.navigation_home:
@@ -423,8 +545,8 @@ public class Main2Activity extends AppCompatActivity {
             }
 
             @Override
-            public void onSwipeLeft(){
-                flipper.setInAnimation(AnimationUtils.loadAnimation(ctx,R.anim.in_from_right));
+            public void onSwipeLeft() {
+                flipper.setInAnimation(AnimationUtils.loadAnimation(ctx, R.anim.in_from_right));
                 int p = navView.getSelectedItemId();
                 switch (p) {
                     case R.id.navigation_home:
@@ -443,9 +565,9 @@ public class Main2Activity extends AppCompatActivity {
             public void onSwipeBottom() {
                 onResume();
                 Toast refresh = new Toast(ctx);
-                refresh.setGravity(Gravity.TOP,0,15);
+                refresh.setGravity(Gravity.TOP, 0, 15);
                 refresh.setDuration(Toast.LENGTH_SHORT);
-                View toasted_layout = getLayoutInflater().inflate(R.layout.toast_refresh,null);
+                View toasted_layout = getLayoutInflater().inflate(R.layout.toast_refresh, null);
                 refresh.setView(toasted_layout);
                 refresh.show();
             }
