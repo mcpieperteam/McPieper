@@ -1,5 +1,6 @@
 package com.mcpieperteam.mcpieper;
 
+import android.animation.LayoutTransition;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.job.JobInfo;
@@ -20,11 +21,19 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
+import android.transition.Slide;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -55,9 +64,24 @@ public class Main2Activity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    flipper.setDisplayedChild(1);
+                   switch (flipper.getDisplayedChild()) {
+                       case 1:
+                           break;
+                       case 0:
+                           //notification (old tab)
+                           flipper.setInAnimation(AnimationUtils.loadAnimation(ctx,R.anim.in_from_right));
+                           flipper.setDisplayedChild(1);
+                           break;
+                       case 2:
+                           //settings (old tab)
+                           flipper.setInAnimation(AnimationUtils.loadAnimation(ctx,R.anim.in_from_left));
+                           flipper.setDisplayedChild(1);
+                           break;
+                   }
+
                     return true;
                 case R.id.navigation_settings:
+                    flipper.setInAnimation(AnimationUtils.loadAnimation(ctx,R.anim.in_from_right));
                     flipper.setDisplayedChild(2);
                     final Button logout_btn = (Button) flipper.findViewById(R.id.request_logout);
                     final Dialog logout_confirm_dialog = new Dialog(ctx, android.R.style.Theme_Light_NoTitleBar_Fullscreen);
@@ -287,6 +311,7 @@ public class Main2Activity extends AppCompatActivity {
                     });
                     return true;
                 case R.id.navigation_notifications:
+                    flipper.setInAnimation(AnimationUtils.loadAnimation(ctx,R.anim.in_from_left));
                     flipper.setDisplayedChild(0);
                     return true;
             }
@@ -313,8 +338,11 @@ public class Main2Activity extends AppCompatActivity {
         actionBar.setTitle("McPieper: "+sp.getString("usr", ""));
         setContentView(R.layout.activity_main2);
 
+
         flipper = (ViewFlipper) findViewById(R.id.view_flipper);
         flipper.setDisplayedChild(1);
+
+
 
 
         final BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -323,6 +351,7 @@ public class Main2Activity extends AppCompatActivity {
         flipper.setOnTouchListener(new OnSwipeTouchListener(Main2Activity.this) {
             @Override
             public void onSwipeRight() {
+                flipper.setInAnimation(AnimationUtils.loadAnimation(ctx,R.anim.in_from_left));
                 int p = navView.getSelectedItemId();
                 switch (p) {
                     case R.id.navigation_home:
@@ -339,6 +368,7 @@ public class Main2Activity extends AppCompatActivity {
 
             @Override
             public void onSwipeLeft(){
+                flipper.setInAnimation(AnimationUtils.loadAnimation(ctx,R.anim.in_from_right));
                 int p = navView.getSelectedItemId();
                 switch (p) {
                     case R.id.navigation_home:
