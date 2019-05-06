@@ -30,7 +30,7 @@ import static com.mcpieperteam.mcpieper.NotificationProvider.CHANNEL_ID;
 import static com.mcpieperteam.mcpieper.NotificationProvider.CHANNEL_ID_dienst;
 
 public class NotificationMgr extends Service {
-    //hi
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -39,7 +39,7 @@ public class NotificationMgr extends Service {
 
     public void onDestroy() {
         final SharedPreferences preferences = getSharedPreferences("refresh", 0);
-        boolean save_energie = preferences.getBoolean("save_engergie", false);
+        boolean save_energie = preferences.getBoolean("save_energie", false);
         if (!save_energie) {
             Toast.makeText(this, R.string.restart_app, Toast.LENGTH_LONG).show();
             Thread thread = new Thread(new Runnable() {
@@ -75,7 +75,7 @@ public class NotificationMgr extends Service {
                     int last_day = preferences.getInt("last_d", 0);
                     int last_month = preferences.getInt("last_month", 0);
                     int last_year = preferences.getInt("last_year", 0);
-                    boolean save_energie = preferences.getBoolean("save_engergie", false);
+                    boolean save_energie = preferences.getBoolean("save_energie", false);
                     boolean brdserviece = preferences.getBoolean("bgservice", false);
 
                     //if ((c_day == last_day && last_hour < 7 && c_hour >= 16 && last_hour != c_hour) || /*(c_day == last_day && last_hour >= 16 && c_hour < 7 && last_hour <= c_hour) ||*/ (c_day != last_day && (last_hour < 7 && c_hour >= 16 && last_hour != c_hour)) || (c_day != last_day && (last_hour >= 16 && c_hour <= 7 && last_hour != c_hour))) {
