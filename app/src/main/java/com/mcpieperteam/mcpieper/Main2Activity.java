@@ -352,7 +352,7 @@ public class Main2Activity extends AppCompatActivity {
 
                                     } else {
                                         //stop user
-                                        Snackbar.make(flipper,"Ein Fehler trat auf bitte Versuche es später erneut",Snackbar.LENGTH_LONG).show();
+                                        Snackbar.make(flipper,"Ein Fehler trat auf bitte Versuche es später erneut!",Snackbar.LENGTH_LONG).show();
                                         navView.setSelectedItemId(R.id.navigation_home);
                                     }
 
