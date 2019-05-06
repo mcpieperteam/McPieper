@@ -56,6 +56,7 @@ import static com.mcpieperteam.mcpieper.MainActivity.JodScheduler_one;
 
 public class Main2Activity extends AppCompatActivity {
     public ViewFlipper flipper;
+    public BottomNavigationView navView;
     final public Context ctx = this;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -312,7 +313,62 @@ public class Main2Activity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_notifications:
                     flipper.setInAnimation(AnimationUtils.loadAnimation(ctx,R.anim.in_from_left));
-                    flipper.setDisplayedChild(0);
+                    SharedPreferences usr_data = getSharedPreferences("login", 0);
+                    final String usr = usr_data.getString("usr", "");
+                    final String pwd = usr_data.getString("pwd", "");
+                    //test if user is allowed here ;)
+                    (new Thread(new Runnable() {
+                        @RequiresApi(api = Build.VERSION_CODES.O)
+                        @Override
+                        public void run() {
+
+                            try {
+                                URL url = new URL("http://jusax.dnshome.de/s/" + "sani.php?d=&act=m&un=" + usr + "&key=" + pwd);
+                                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                                try {
+                                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                                    BufferedReader r = new BufferedReader(new InputStreamReader(in));
+                                    StringBuilder total = new StringBuilder();
+                                    String line;
+                                    while ((line = r.readLine()) != null) {
+                                        total.append(line);
+                                    }
+
+                                    String result = total.toString();
+                                    if (result.contains("951")) {
+                                        //user can pass
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                //open notfication section
+                                                flipper.setDisplayedChild(0);
+
+                                            }
+                                        });
+                                    } else if (result.contains("952")) {
+                                        //stop user
+                                        Snackbar.make(flipper,"Du hast keinen Dienst den du absagen kannst",Snackbar.LENGTH_LONG).show();
+                                        navView.setSelectedItemId(R.id.navigation_home);
+
+                                    } else {
+                                        //stop user
+                                        Snackbar.make(flipper,"Ein Fehler trat auf bitte Versuche es später erneut",Snackbar.LENGTH_LONG).show();
+                                        navView.setSelectedItemId(R.id.navigation_home);
+                                    }
+
+                                } finally {
+                                    urlConnection.disconnect();
+
+                                }
+                            } catch (MalformedURLException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+
+                    })).start();
                     return true;
             }
             return false;
@@ -345,7 +401,7 @@ public class Main2Activity extends AppCompatActivity {
 
 
 
-        final BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navView.setSelectedItemId(R.id.navigation_home);
         flipper.setOnTouchListener(new OnSwipeTouchListener(Main2Activity.this) {
