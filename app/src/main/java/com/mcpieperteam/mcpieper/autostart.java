@@ -19,7 +19,7 @@ public class autostart extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             SharedPreferences preferences = context.getSharedPreferences("refresh", 0);
-            boolean brdserviece = preferences.getBoolean("bgrserviece", false);
+            boolean brdserviece = preferences.getBoolean("bgservice", false);
             if (brdserviece) {
                 try {
                     Intent intent_start = new Intent(context, NotificationMgr.class);

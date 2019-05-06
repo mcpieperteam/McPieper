@@ -15,8 +15,8 @@ public class BackgroundJobService extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         SharedPreferences preferences = getSharedPreferences("refresh", 0);
-        boolean brdserviece = preferences.getBoolean("bgrserviece", false);
-        if (brdserviece) {
+        boolean bgservice = preferences.getBoolean("bgservice", false);
+        if (bgservice) {
             try {
                 Context context = this;
                 if (!isServiceRunning(NotificationMgr.class, context)) {
