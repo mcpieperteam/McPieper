@@ -73,11 +73,13 @@ public class Main2Activity extends AppCompatActivity {
                         case 0:
                             //notification (old tab)
                             flipper.setInAnimation(AnimationUtils.loadAnimation(ctx, R.anim.in_from_right));
+                            flipper.setOutAnimation(AnimationUtils.loadAnimation(ctx,R.anim.out_from_left));
                             flipper.setDisplayedChild(1);
                             break;
                         case 2:
                             //settings (old tab)
                             flipper.setInAnimation(AnimationUtils.loadAnimation(ctx, R.anim.in_from_left));
+                            flipper.setOutAnimation(AnimationUtils.loadAnimation(ctx,R.anim.out_from_right));
                             flipper.setDisplayedChild(1);
                             break;
                     }
@@ -85,6 +87,7 @@ public class Main2Activity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_settings:
                     flipper.setInAnimation(AnimationUtils.loadAnimation(ctx, R.anim.in_from_right));
+                    flipper.setOutAnimation(AnimationUtils.loadAnimation(ctx,R.anim.out_from_left));
                     flipper.setDisplayedChild(2);
                     final Button logout_btn = (Button) flipper.findViewById(R.id.request_logout);
                     final Dialog logout_confirm_dialog = new Dialog(ctx, android.R.style.Theme_Light_NoTitleBar_Fullscreen);
@@ -315,6 +318,7 @@ public class Main2Activity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_notifications:
                     flipper.setInAnimation(AnimationUtils.loadAnimation(ctx, R.anim.in_from_left));
+                    flipper.setOutAnimation(AnimationUtils.loadAnimation(ctx,R.anim.in_from_right));
                     SharedPreferences usr_data = getSharedPreferences("login", 0);
                     final String usr = usr_data.getString("usr", "");
                     final String pwd = usr_data.getString("pwd", "");
@@ -350,12 +354,22 @@ public class Main2Activity extends AppCompatActivity {
                                     } else if (result.contains("952")) {
                                         //stop user
                                         Snackbar.make(flipper, "Du hast keinen Dienst den du absagen kannst", Snackbar.LENGTH_LONG).show();
-                                        navView.setSelectedItemId(R.id.navigation_home);
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                navView.setSelectedItemId(R.id.navigation_home);
+                                            }
+                                        });
 
                                     } else {
                                         //stop user
                                         Snackbar.make(flipper, "Ein Fehler trat auf bitte Versuche es später erneut!", Snackbar.LENGTH_LONG).show();
-                                        navView.setSelectedItemId(R.id.navigation_home);
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                navView.setSelectedItemId(R.id.navigation_home);
+                                            }
+                                        });
                                     }
 
                                 } finally {
@@ -580,7 +594,7 @@ public class Main2Activity extends AppCompatActivity {
         } else {
 
             SharedPreferences preferences = getSharedPreferences("refresh", 0);
-            boolean brdserviece = preferences.getBoolean("bgrserviece", false);
+            boolean brdserviece = preferences.getBoolean("bgservice", false);
             if (brdserviece) {
                 startService(new Intent(this, NotificationMgr.class));
             }
