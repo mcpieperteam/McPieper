@@ -61,23 +61,23 @@ public class Widget_one_Provider extends AppWidgetProvider {
                                     views.setTextViewText(R.id.widget_one_content, group);
                                 }
                                 List<String> list = Arrays.asList(group.split(", "));
-                                if(list.contains(usr)){
-                                    views.setImageViewResource(R.id.logo,R.drawable.mcpieper_icon_green);
-                                }else{
-                                    views.setImageViewResource(R.id.logo,R.drawable.mcpieper_icon);
+                                if (list.contains(usr)) {
+                                    views.setImageViewResource(R.id.logo, R.drawable.mcpieper_icon_green);
+                                } else {
+                                    views.setImageViewResource(R.id.logo, R.drawable.mcpieper_icon);
                                 }
 
                                 Date d = new Date();
                                 String min = "";
-                                if (String.valueOf(d.getMinutes()).length() == 1){
-                                    min = "0"+String.valueOf(d.getMinutes());
-                                }else{
+                                if (String.valueOf(d.getMinutes()).length() == 1) {
+                                    min = "0" + d.getMinutes();
+                                } else {
                                     min = String.valueOf(d.getMinutes());
                                 }
-                                views.setTextViewText(R.id.widget_one_offline, "Zuletzt aktualisiert: "+String.valueOf(d.getHours())+":"+min);
+                                views.setTextViewText(R.id.widget_one_offline, "Zuletzt aktualisiert: " + d.getHours() + ":" + min);
 
 
-                                Intent intent = new Intent(context, MainActivity.class);
+                                Intent intent = new Intent(context, Main2Activity.class);
                                 PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
                                 views.setOnClickPendingIntent(R.id.widget_one, pendingIntent);
 
@@ -90,23 +90,23 @@ public class Widget_one_Provider extends AppWidgetProvider {
                             e.printStackTrace();
                             Date d = new Date();
                             String min = "";
-                            if (String.valueOf(d.getMinutes()).length() == 1){
-                                min = "0"+String.valueOf(d.getMinutes());
-                            }else{
+                            if (String.valueOf(d.getMinutes()).length() == 1) {
+                                min = "0" + d.getMinutes();
+                            } else {
                                 min = String.valueOf(d.getMinutes());
                             }
-                            views.setTextViewText(R.id.widget_one_offline, "(Offline) "+String.valueOf(d.getHours())+":"+min);
+                            views.setTextViewText(R.id.widget_one_offline, "(Offline) " + d.getHours() + ":" + min);
                             appWidgetManager.updateAppWidget(appWidgetId, views);
                         } catch (IOException e) {
                             e.printStackTrace();
                             Date d = new Date();
                             String min = "";
-                            if (String.valueOf(d.getMinutes()).length() == 1){
-                                min = "0"+String.valueOf(d.getMinutes());
-                            }else{
+                            if (String.valueOf(d.getMinutes()).length() == 1) {
+                                min = "0" + d.getMinutes();
+                            } else {
                                 min = String.valueOf(d.getMinutes());
                             }
-                            views.setTextViewText(R.id.widget_one_offline, "(Offline) "+String.valueOf(d.getHours())+":"+min);
+                            views.setTextViewText(R.id.widget_one_offline, "(Offline) " + d.getHours() + ":" + min);
                             appWidgetManager.updateAppWidget(appWidgetId, views);
                         }
 
@@ -114,8 +114,8 @@ public class Widget_one_Provider extends AppWidgetProvider {
                 });
                 thread.start();
 
-            }else{
-                Intent intent = new Intent(context, MainActivity.class);
+            } else {
+                Intent intent = new Intent(context, Main2Activity.class);
                 PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
                 views.setTextViewText(R.id.widget_one_content, "Klicke einfach!!!");

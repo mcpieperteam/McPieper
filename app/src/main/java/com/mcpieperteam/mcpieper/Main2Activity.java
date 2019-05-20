@@ -1,8 +1,10 @@
 package com.mcpieperteam.mcpieper;
 
 import android.animation.LayoutTransition;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.appwidget.AppWidgetManager;
@@ -12,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +25,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.transition.Transition;
 import android.util.Log;
@@ -54,9 +59,13 @@ import java.net.URL;
 import java.util.Date;
 import java.util.Random;
 
-import static com.mcpieperteam.mcpieper.MainActivity.JodScheduler_one;
+import static android.support.v7.app.AppCompatDelegate.MODE_NIGHT_AUTO;
+import static android.support.v7.app.AppCompatDelegate.MODE_NIGHT_NO;
+import static android.support.v7.app.AppCompatDelegate.MODE_NIGHT_YES;
+
 
 public class Main2Activity extends AppCompatActivity {
+    public final static Integer JodScheduler_one = 1;
     public ViewFlipper flipper;
     public BottomNavigationView navView;
     final public Context ctx = this;
@@ -73,13 +82,13 @@ public class Main2Activity extends AppCompatActivity {
                         case 0:
                             //notification (old tab)
                             flipper.setInAnimation(AnimationUtils.loadAnimation(ctx, R.anim.in_from_right));
-                            flipper.setOutAnimation(AnimationUtils.loadAnimation(ctx,R.anim.out_from_left));
+                            flipper.setOutAnimation(AnimationUtils.loadAnimation(ctx, R.anim.out_from_left));
                             flipper.setDisplayedChild(1);
                             break;
                         case 2:
                             //settings (old tab)
                             flipper.setInAnimation(AnimationUtils.loadAnimation(ctx, R.anim.in_from_left));
-                            flipper.setOutAnimation(AnimationUtils.loadAnimation(ctx,R.anim.out_from_right));
+                            flipper.setOutAnimation(AnimationUtils.loadAnimation(ctx, R.anim.out_from_right));
                             flipper.setDisplayedChild(1);
                             break;
                     }
@@ -87,14 +96,14 @@ public class Main2Activity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_settings:
                     flipper.setInAnimation(AnimationUtils.loadAnimation(ctx, R.anim.in_from_right));
-                    flipper.setOutAnimation(AnimationUtils.loadAnimation(ctx,R.anim.out_from_left));
+                    flipper.setOutAnimation(AnimationUtils.loadAnimation(ctx, R.anim.out_from_left));
                     flipper.setDisplayedChild(2);
-                    final Button logout_btn = (Button) flipper.findViewById(R.id.request_logout);
+                    final Button logout_btn = flipper.findViewById(R.id.request_logout);
                     final Dialog logout_confirm_dialog = new Dialog(ctx, android.R.style.Theme_Light_NoTitleBar_Fullscreen);
                     logout_confirm_dialog.setContentView(R.layout.logout_confirm_popup);
                     //initialise popup buttons
-                    Button cancel_logout = (Button) logout_confirm_dialog.findViewById(R.id.cancel_logout);
-                    Button confirm_logout = (Button) logout_confirm_dialog.findViewById(R.id.confirm_logout);
+                    Button cancel_logout = logout_confirm_dialog.findViewById(R.id.cancel_logout);
+                    Button confirm_logout = logout_confirm_dialog.findViewById(R.id.confirm_logout);
                     //add click listener
                     cancel_logout.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -116,8 +125,8 @@ public class Main2Activity extends AppCompatActivity {
                         }
                     });
                     //RequestTechniqueButtons
-                    Switch noFB = (Switch) flipper.findViewById(R.id.no_firebase_switch);
-                    Switch power_saving_mode_swtch = (Switch) flipper.findViewById(R.id.save_energie_switch);
+                    Switch noFB = flipper.findViewById(R.id.no_firebase_switch);
+                    Switch power_saving_mode_swtch = flipper.findViewById(R.id.save_energie_switch);
                     noFB.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -164,17 +173,17 @@ public class Main2Activity extends AppCompatActivity {
                     }
                     power_saving_mode_swtch.setChecked(preferences.getBoolean("save_energie", false));
                     //Change Password
-                    Button request_pw_change = (Button) flipper.findViewById(R.id.changepw);
+                    Button request_pw_change = flipper.findViewById(R.id.changepw);
                     final Dialog pw_change_dialog = new Dialog(ctx, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
                     pw_change_dialog.setContentView(R.layout.popup_changepwd);
                     //initialise dialog interface
-                    Button submit_pwd = (Button) pw_change_dialog.findViewById(R.id.submit_pw_change);
+                    Button submit_pwd = pw_change_dialog.findViewById(R.id.submit_pw_change);
                     submit_pwd.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(final View v) {
-                            final EditText old_pwd_in = (EditText) pw_change_dialog.findViewById(R.id.inp_old_pwd);
-                            final EditText new_pwd_in = (EditText) pw_change_dialog.findViewById(R.id.inp_new_pwd);
-                            final EditText new_pwd_conf_in = (EditText) pw_change_dialog.findViewById(R.id.inp_new_pwd_rep);
+                            final EditText old_pwd_in = pw_change_dialog.findViewById(R.id.inp_old_pwd);
+                            final EditText new_pwd_in = pw_change_dialog.findViewById(R.id.inp_new_pwd);
+                            final EditText new_pwd_conf_in = pw_change_dialog.findViewById(R.id.inp_new_pwd_rep);
                             final SharedPreferences sharedPreferences = getSharedPreferences("login", 0);
                             final String new_pwd = new_pwd_in.getText().toString();
                             String new_pwd_conf = new_pwd_conf_in.getText().toString();
@@ -265,7 +274,7 @@ public class Main2Activity extends AppCompatActivity {
                         }
                     });
                     //open website toggle
-                    Button open_website = (Button) flipper.findViewById(R.id.openinbrowser);
+                    Button open_website = flipper.findViewById(R.id.openinbrowser);
                     open_website.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -277,7 +286,7 @@ public class Main2Activity extends AppCompatActivity {
                         }
                     });
                     //open in playstore
-                    Button open_playstore = (Button) flipper.findViewById(R.id.openinplay);
+                    Button open_playstore = flipper.findViewById(R.id.openinplay);
                     open_playstore.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -291,11 +300,12 @@ public class Main2Activity extends AppCompatActivity {
                         }
                     });
                     //Theme Changer
-                    Button change_theme_popup = (Button) flipper.findViewById(R.id.change_theme);
-                    final Dialog theme_changer = new Dialog(ctx, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
+                    Button change_theme_popup = flipper.findViewById(R.id.change_theme);
+
+                    final Dialog theme_changer = new Dialog(ctx, R.style.AppTheme);
                     theme_changer.setContentView(R.layout.popup_change_theme);
                     final SharedPreferences sharedPreferences = getSharedPreferences("style", 0);
-                    final RadioGroup theme_selector = (RadioGroup) theme_changer.findViewById(R.id.theme_selctor);
+                    final RadioGroup theme_selector = theme_changer.findViewById(R.id.theme_selctor);
                     change_theme_popup.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -304,7 +314,7 @@ public class Main2Activity extends AppCompatActivity {
                         }
                     });
                     //theme changer popup
-                    Button submit_new_theme = (Button) theme_changer.findViewById(R.id.submit_theme_change);
+                    Button submit_new_theme = theme_changer.findViewById(R.id.submit_theme_change);
                     submit_new_theme.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -318,7 +328,7 @@ public class Main2Activity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_notifications:
                     flipper.setInAnimation(AnimationUtils.loadAnimation(ctx, R.anim.in_from_left));
-                    flipper.setOutAnimation(AnimationUtils.loadAnimation(ctx,R.anim.in_from_right));
+                    flipper.setOutAnimation(AnimationUtils.loadAnimation(ctx, R.anim.out_from_right));
                     SharedPreferences usr_data = getSharedPreferences("login", 0);
                     final String usr = usr_data.getString("usr", "");
                     final String pwd = usr_data.getString("pwd", "");
@@ -452,7 +462,6 @@ public class Main2Activity extends AppCompatActivity {
                                                         }).show();
 
 
-
                                             } else if (result.contains("973")) {
                                                 String[] answrs = getResources().getStringArray(R.array.error_while_canceling);
 
@@ -516,24 +525,44 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sp = ctx.getSharedPreferences("login", 0);
         SharedPreferences sharedPreferences = getSharedPreferences("style", 0);
         switch (sharedPreferences.getInt("theme", R.id.theme_default)) {
             case R.id.theme_dark:
                 setTheme(R.style.AppTheme_Dark);
+                ActionBar actionBar = getSupportActionBar();
+                actionBar.setTitle("McPieper: " + sp.getString("usr", ""));
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
                 break;
-            case R.id.theme_transparent:
+            case R.id.theme_transparent_light:
                 setTheme(R.style.AppTheme_Transparent);
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
                 break;
-            case R.id.theme_default:
+            case R.id.theme_transparent_dark:
+                setTheme(R.style.AppTheme_Transparent);
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
+                break;
+            case R.id.theme_black:
+                setTheme(R.style.AppTheme_Black);
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
+                break;
+            case R.id.theme_daytime:
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_AUTO);
+                setTheme(R.style.AppTheme_Daytime);
+                ActionBar actionBar_dt = getSupportActionBar();
+                actionBar_dt.setTitle("McPieper: " + sp.getString("usr", ""));
+                break;
+            default:
                 setTheme(R.style.AppTheme);
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
+                ActionBar actionBar_default = getSupportActionBar();
+                actionBar_default.setTitle("McPieper: " + sp.getString("usr", ""));
         }
-        ActionBar actionBar = getSupportActionBar();
-        SharedPreferences sp = ctx.getSharedPreferences("login", 0);
-        actionBar.setTitle("McPieper: " + sp.getString("usr", ""));
         setContentView(R.layout.activity_main2);
 
 
-        flipper = (ViewFlipper) findViewById(R.id.view_flipper);
+        flipper = findViewById(R.id.view_flipper);
         flipper.setDisplayedChild(1);
 
 
@@ -601,7 +630,7 @@ public class Main2Activity extends AppCompatActivity {
 
             Intent intent_w_one = new Intent(this, Widget_one_Provider.class);
             intent_w_one.setAction("android.appwidget.action.APPWIDGET_UPDATE");
-            int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), Widget_one_Provider.class));
+            int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), Widget_one_Provider.class));
             intent_w_one.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
             sendBroadcast(intent_w_one);
 

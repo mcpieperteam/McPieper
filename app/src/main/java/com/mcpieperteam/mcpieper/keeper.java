@@ -10,11 +10,11 @@ public class keeper extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
+
     public void onDestroy() {
 
 
     }
-
     @Override
     public void onStart(Intent intent, int startid) {
         Thread thread = new Thread(new Runnable() {

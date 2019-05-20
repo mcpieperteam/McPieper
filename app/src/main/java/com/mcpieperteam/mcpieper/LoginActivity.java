@@ -32,20 +32,18 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_activity);
 
 
-            //FirstBoot:
-            final Dialog load = new Dialog(this, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
-            load.setContentView(R.layout.first_start_popup);
-            Button start_login = (Button) load.findViewById(R.id.start_login);
-            start_login.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    load.dismiss();
+        //FirstBoot:
+        final Dialog load = new Dialog(this, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
+        load.setContentView(R.layout.first_start_popup);
+        Button start_login = load.findViewById(R.id.start_login);
+        start_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                load.dismiss();
 
-                }
-            });
-            load.show();
-
-
+            }
+        });
+        load.show();
 
 
         final Button login_btn = findViewById(R.id.login);
@@ -59,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                         EditText usr_field = findViewById(R.id.usr_input);
                         EditText pwd_field = findViewById(R.id.pw_input);
                         try {
-                            URL url = new URL("http://jusax.dnshome.de/s/sani.php?d=&act=nt&un="+usr_field.getText()+"&key="+pwd_field.getText());
+                            URL url = new URL("http://jusax.dnshome.de/s/sani.php?d=&act=nt&un=" + usr_field.getText() + "&key=" + pwd_field.getText());
                             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                             try {
                                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
@@ -75,23 +73,23 @@ public class LoginActivity extends AppCompatActivity {
 
                                     Snackbar.make(login_btn, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                                             .setAction("Action", null).show();
-                                    SharedPreferences sp = getSharedPreferences("login",0);
+                                    SharedPreferences sp = getSharedPreferences("login", 0);
                                     SharedPreferences.Editor edit = sp.edit();
-                                    edit.putString("usr",usr_field.getText().toString());
-                                    edit.putString("pwd",pwd_field.getText().toString());
-                                    edit.putBoolean("authed",true);
+                                    edit.putString("usr", usr_field.getText().toString());
+                                    edit.putString("pwd", pwd_field.getText().toString());
+                                    edit.putBoolean("authed", true);
                                     edit.commit();
-                                    startActivity(new Intent(ctx, MainActivity.class));
+                                    startActivity(new Intent(ctx, Main2Activity.class));
 
                                     Intent intent_w_one = new Intent(getApplicationContext(), Widget_one_Provider.class);
                                     intent_w_one.setAction("android.appwidget.action.APPWIDGET_UPDATE");
-                                    int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), Widget_one_Provider.class));
-                                    intent_w_one.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+                                    int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), Widget_one_Provider.class));
+                                    intent_w_one.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
                                     sendBroadcast(intent_w_one);
                                     finish();
                                 } else {
                                     String[] answrs = {"Es traten Probleme bei der Anmeldung auf",
-                                            "Nutzername/Passwort falsch","Login nicht erfolgreich"," Ein Fehler ist aufgetreten ist"};
+                                            "Nutzername/Passwort falsch", "Login nicht erfolgreich", " Ein Fehler ist aufgetreten ist"};
 
                                     Snackbar.make(login_btn, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                                             .setAction("Action", null).show();

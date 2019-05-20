@@ -40,7 +40,7 @@ public class autostart extends BroadcastReceiver {
     private void showNotification(String title, String message, Context context) {
 
 
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, Main2Activity.class);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
