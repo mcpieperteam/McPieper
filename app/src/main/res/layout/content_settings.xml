@@ -10,108 +10,150 @@
 
     tools:context="com.mcpieperteam.mcpieper.Main2Activity">
 
-    <LinearLayout
-        android:id="@+id/bg_settings"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:foregroundGravity="center_vertical|center_horizontal"
-        android:gravity="center|top"
-        android:orientation="vertical">
-
-        <Switch
-            android:id="@+id/no_firebase_switch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:padding="2dp"
-            android:text="Hintergrundserviece"
-            android:textColor="@color/red" />
-
-        <Switch
-            android:id="@+id/save_energie_switch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="2dp"
-            android:text="Energiesparmodus"
-            android:textColor="@color/red"
-            android:visibility="invisible" />
-
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/bg_settings"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:foregroundGravity="center_vertical|center_horizontal"
+            android:gravity="center|top"
             android:orientation="vertical">
+
+            <Switch
+                android:id="@+id/no_firebase_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="10dp"
+                android:text="Hintergrundservice"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/textColor" />
+
+            <Switch
+                android:id="@+id/save_energie_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:text="Energiesparmodus"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/textColor"
+                android:visibility="invisible" />
+
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
             <Button
                 android:id="@+id/changepw"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/common_google_signin_btn_text_light_normal_background"
+                android:layout_margin="5dp"
+                android:background="@android:color/transparent"
+                android:gravity="center|left"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="5dp"
                 android:text="Passwort ändern"
                 android:textAllCaps="false"
-                android:textColor="@color/red" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
             <Button
                 android:id="@+id/change_theme"
-                style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/common_google_signin_btn_text_light_normal_background"
-                android:paddingLeft="20dp"
-                android:paddingTop="10dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="10dp"
+                android:layout_margin="5dp"
+                android:background="@android:color/transparent"
+                android:gravity="center|left"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
                 android:text="App Thema ändern"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
             <Button
                 android:id="@+id/openinplay"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/common_google_signin_btn_text_light_normal_background"
+                android:layout_margin="5dp"
+                android:background="@android:color/transparent"
+                android:gravity="center|left"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="5dp"
                 android:text="Playstore öffnen"
                 android:textAllCaps="false"
-                android:textColor="@color/red" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
             <Button
                 android:id="@+id/openinbrowser"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/common_google_signin_btn_text_light_normal_background"
+                android:layout_margin="5dp"
+                android:background="@android:color/transparent"
+                android:gravity="center|left"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="5dp"
                 android:text="Website öffnen"
                 android:textAllCaps="false"
-                android:textColor="@color/red" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <View
+                android:id="@+id/divider5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
             <Button
                 android:id="@+id/request_logout"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/common_google_signin_btn_text_light_normal_background"
+                android:layout_margin="5dp"
+                android:background="@android:color/transparent"
+                android:gravity="center|left"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="5dp"
                 android:text="Abmelden"
                 android:textAllCaps="false"
-                android:textColor="@color/red" />
-        </LinearLayout>
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
 </android.support.constraint.ConstraintLayout>

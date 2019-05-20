@@ -7,14 +7,22 @@
     android:layout_height="match_parent"
     tools:context="com.mcpieperteam.mcpieper.Main2Activity">
 
-    <ViewFlipper
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/view_flipper">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        tools:ignore="MissingConstraints" />
 
-        <include layout="@layout/content_notification"/>
-        <include layout="@layout/content_main"/>
-        <include layout="@layout/content_settings"/>
+    <ViewFlipper
+        android:id="@+id/view_flipper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/content_notification" />
+
+        <include layout="@layout/content_main" />
+
+        <include layout="@layout/content_settings" />
 
     </ViewFlipper>
 

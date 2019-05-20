@@ -46,4 +46,8 @@
     </string-array>
     <string name="title_activity_main2">McPieper</string>
     <string name="title_home">Home</string>
+    <string name="title_activity_main">McPieper</string>
+    <string name="tab_text_1">Dienstabsagen</string>
+    <string name="tab_text_2">Home</string>
+    <string name="tab_text_3">Einstellungen</string>
 </resources>

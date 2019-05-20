@@ -23,7 +23,7 @@ public class McFirebaseInstanceServiece extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         Log.d("MyFirebase", "recieved");
 
-       showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
+        showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
 
     }
 
@@ -32,11 +32,12 @@ public class McFirebaseInstanceServiece extends FirebaseMessagingService {
     public void onNewToken(String s) {
         super.onNewToken(s);
         SharedPreferences sharedPreferences = getSharedPreferences("login", 0);
-        String old = sharedPreferences.getString("token","");
-        sharedPreferences.edit().putString("token-old",old).commit();
-        sharedPreferences.edit().putString("token",s).commit();
+        String old = sharedPreferences.getString("token", "");
+        sharedPreferences.edit().putString("token-old", old).commit();
+        sharedPreferences.edit().putString("token", s).commit();
         Log.d("TOKEN", s);
-            }
+    }
+
     private void showNotification(String title, String message) {
         final Context context = this;
 
@@ -51,13 +52,13 @@ public class McFirebaseInstanceServiece extends FirebaseMessagingService {
                 .setContentText(message)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setColor(Color.rgb(205,100,100))
+                .setColor(Color.rgb(205, 100, 100))
                 .setContentIntent(pendingIntent)
                 .build();
 
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify("2",2, builder);
+        notificationManager.notify("2", 2, builder);
     }
 
 }

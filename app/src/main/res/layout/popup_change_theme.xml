@@ -10,9 +10,8 @@
 
         <RadioGroup
             android:id="@+id/theme_selctor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <RadioButton
                 android:id="@+id/theme_default"
@@ -29,11 +28,31 @@
                 android:text="Dunkel" />
 
             <RadioButton
-                android:id="@+id/theme_transparent"
+                android:id="@+id/theme_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Transparent" />
+                android:text="Schwarz" />
+
+            <RadioButton
+                android:id="@+id/theme_daytime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tag/Nacht" />
+
+            <RadioButton
+                android:id="@+id/theme_transparent_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Transparent/Dunkel" />
+            <RadioButton
+                android:id="@+id/theme_transparent_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Transparent/Hell" />
         </RadioGroup>
 
         <Button
@@ -42,6 +61,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/common_google_signin_btn_text_light_normal_background"
-            android:text="->Thema ändern" />
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp"
+            android:text="Thema ändern" />
     </LinearLayout>
 </FrameLayout>
