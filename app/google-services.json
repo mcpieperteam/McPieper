@@ -8,6 +8,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:952355027906:android:fce2dcd6e07d7f9e",
+        "android_client_info": {
+          "package_name": "com.cloudway.mcpieper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "952355027906-fo8krlida0ma4fuvtjv1mtnpg5ffoq9v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cloudway.mcpieper",
+            "certificate_hash": "37c97303ea51a3ae050f5e630db58f70383d6ff5"
+          }
+        },
+        {
+          "client_id": "952355027906-6c0d4u0akfb2v3bvr3f3l0ab43po6n4d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCc-JL5nwBsOf0sASXtFvKfOwibWOBVKm4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "952355027906-6c0d4u0akfb2v3bvr3f3l0ab43po6n4d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:952355027906:android:27593ccf5324653a",
         "android_client_info": {
           "package_name": "com.mcpieperteam.mcpieper"
@@ -21,6 +58,10 @@
             "package_name": "com.mcpieperteam.mcpieper",
             "certificate_hash": "2fe6db8442d36c71d3f388646d579177ae5a33fe"
           }
+        },
+        {
+          "client_id": "952355027906-6c0d4u0akfb2v3bvr3f3l0ab43po6n4d.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [

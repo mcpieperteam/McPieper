@@ -12,7 +12,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/bg_settings"
@@ -62,6 +62,7 @@
                 android:paddingTop="5dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="5dp"
+                android:textColor="@color/textColor"
                 android:text="Passwort ändern"
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
@@ -83,6 +84,7 @@
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/textColor"
                 android:paddingBottom="5dp"
                 android:text="App Thema ändern"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
@@ -103,6 +105,7 @@
                 android:gravity="center|left"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
+                android:textColor="@color/textColor"
                 android:paddingRight="10dp"
                 android:paddingBottom="5dp"
                 android:text="Playstore öffnen"
@@ -124,6 +127,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="center|left"
                 android:paddingLeft="10dp"
+                android:textColor="@color/textColor"
                 android:paddingTop="5dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="5dp"
@@ -147,6 +151,7 @@
                 android:gravity="center|left"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
+                android:textColor="@color/textColor"
                 android:paddingRight="10dp"
                 android:paddingBottom="5dp"
                 android:text="Abmelden"
