@@ -31,6 +31,7 @@ import android.transition.Slide;
 import android.transition.Transition;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -115,9 +116,26 @@ public class Main2Activity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             //Logout
+                            Snackbar.make(navView,"Bitte habe einen Moment Geduld-  LogIn erfolgt sofort",Snackbar.LENGTH_LONG).show();
+                            SharedPreferences sp = getSharedPreferences("login", 0);
+                            SharedPreferences.Editor edit = sp.edit();
+                            edit.putBoolean("authed", false);
+                            edit.commit();
+
+                            //reset theme
+                            setTheme(R.style.AppTheme);
+                            SharedPreferences sharedPreferences = getSharedPreferences("style", 0);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putInt("theme", R.id.theme_default);
+                            editor.commit();
+
+                            //restart
+                            startActivity(new Intent(ctx, LoginActivity.class));
+                            finish();
+
                         }
                     });
-                    //open confirmation on button press
+                    //open popup on button press
                     logout_btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -174,7 +192,7 @@ public class Main2Activity extends AppCompatActivity {
                     power_saving_mode_swtch.setChecked(preferences.getBoolean("save_energie", false));
                     //Change Password
                     Button request_pw_change = flipper.findViewById(R.id.changepw);
-                    final Dialog pw_change_dialog = new Dialog(ctx, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
+                    final Dialog pw_change_dialog = new Dialog(ctx, R.style.AppTheme);
                     pw_change_dialog.setContentView(R.layout.popup_changepwd);
                     //initialise dialog interface
                     Button submit_pwd = pw_change_dialog.findViewById(R.id.submit_pw_change);
@@ -412,6 +430,12 @@ public class Main2Activity extends AppCompatActivity {
                             edit.commit();
                             Snackbar.make(v, answrs[new Random().nextInt(answrs.length)], Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    navView.setSelectedItemId(R.id.navigation_home);
+                                }
+                            });
                         }
                     });
                     cncl.setOnClickListener(new View.OnClickListener() {
@@ -531,8 +555,7 @@ public class Main2Activity extends AppCompatActivity {
         switch (sharedPreferences.getInt("theme", R.id.theme_default)) {
             case R.id.theme_dark:
                 setTheme(R.style.AppTheme_Dark);
-                ActionBar actionBar = getSupportActionBar();
-                actionBar.setTitle("McPieper: " + sp.getString("usr", ""));
+
                 AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
                 break;
             case R.id.theme_transparent_light:
@@ -541,6 +564,7 @@ public class Main2Activity extends AppCompatActivity {
                 break;
             case R.id.theme_transparent_dark:
                 setTheme(R.style.AppTheme_Transparent);
+
                 AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
                 break;
             case R.id.theme_black:
@@ -550,17 +574,21 @@ public class Main2Activity extends AppCompatActivity {
             case R.id.theme_daytime:
                 AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_AUTO);
                 setTheme(R.style.AppTheme_Daytime);
-                ActionBar actionBar_dt = getSupportActionBar();
-                actionBar_dt.setTitle("McPieper: " + sp.getString("usr", ""));
+
                 break;
             default:
                 setTheme(R.style.AppTheme);
                 AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
-                ActionBar actionBar_default = getSupportActionBar();
-                actionBar_default.setTitle("McPieper: " + sp.getString("usr", ""));
+
         }
+
         setContentView(R.layout.activity_main2);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        TextView title = (TextView) toolbar.findViewById(R.id.title);
+        title.setText("McPieper: " + sp.getString("usr", ""));
 
         flipper = findViewById(R.id.view_flipper);
         flipper.setDisplayedChild(1);

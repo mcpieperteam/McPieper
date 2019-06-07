@@ -28,6 +28,7 @@ import java.util.Random;
 public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
@@ -79,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                                     edit.putString("pwd", pwd_field.getText().toString());
                                     edit.putBoolean("authed", true);
                                     edit.commit();
+
                                     startActivity(new Intent(ctx, Main2Activity.class));
 
                                     Intent intent_w_one = new Intent(getApplicationContext(), Widget_one_Provider.class);
