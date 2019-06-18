@@ -128,7 +128,7 @@ public class Main2Activity extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putInt("theme", R.id.theme_default);
                             editor.commit();
-
+                            logout_confirm_dialog.dismiss();
                             //restart
                             startActivity(new Intent(ctx, LoginActivity.class));
                             finish();
@@ -339,6 +339,7 @@ public class Main2Activity extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putInt("theme", theme_selector.getCheckedRadioButtonId());
                             editor.commit();
+                            theme_changer.dismiss();
                             startActivity(new Intent(ctx, Main2Activity.class));
                             finish();
                         }
